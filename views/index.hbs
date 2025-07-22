@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Robonotes</title>
+        <link rel="stylesheet" href="/css/robonotes.css">
+            <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
+            <script src="../public/newserver.js"></script>
+    </head>
+    <body>
+        <style>
+        
+        footer {
+            margin-top: 635px;
+        }
+        
+        #sign{
+            margin-left: 1000px;
+            color: white;
+            background: linear-gradient(to right, rgb(211, 79, 101), rgb(210, 17, 17));
+        }
+        #sign:active{
+            background: white;
+            /* color: rgb(45, 168, 210); */
+            background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
+        }
+
+        button{
+            color: white;
+        }
+
+        </style>
+       <a href="/" class="homebutton">
+        <h1 class="typewriter">
+            <span>R</span><span>o</span><span>b</span><span>o</span><span>n</span><span>o</span><span>t</span><span>e</span><span>s</span><span>.</span>
+            <span><img src="img/robonotesnewlogo.png" alt="robonoteslogo" class="logo"></span>
+            <button id="sign">Sign Up</button>
+        </h1>
+        <br>
+       </a>
+       {{>header}}
+        {{>footer}}
+        {{!-- <script src="robononotes.js"></script> --}}
+        
+    </body>
+</html>

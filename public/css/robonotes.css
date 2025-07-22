@@ -1,0 +1,183 @@
+body{
+
+    font-family: straight-strokes,sans-serif;
+    background-color: #101010;
+}
+
+.homebutton {
+    text-decoration: none;
+}
+h1 {
+    border-bottom: 1px solid pink;
+    /* margin-right: 5px; */
+    /* border-image: ; */
+    border-image-slice: 1;
+}
+
+ .me{
+    text-decoration: none;
+    /* color: cornflowerblue; */
+ }
+ .me:visited{
+    color: rgb(255, 255, 255);
+ }
+
+
+  button {
+    margin-right: 10px; /* Adjust the spacing between buttons */
+    border-radius: 20px; /* Make buttons round */
+    padding: 10px 20px; /* Add padding for better appearance */
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    border: none;
+}
+
+button:hover {
+    background: rgb(216, 49, 49); /* Change background color when hovering */
+}
+
+
+
+.logo {
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    background-color: transparent; /* Set background color to transparent */
+    display: inline-block; /* Make image appear next to h1 */
+    vertical-align: middle; /* Align image vertically with text */
+    margin-left: -25px;
+    margin-top: -15px;
+}
+
+
+.intlink {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+header a button{
+    margin-right: 275px;
+}
+
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    position: relative;
+}
+
+
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    position: relative;
+}
+
+.typewriter span {
+    opacity: 0;
+}
+
+.typewriter span:nth-child(1) {
+    animation: fadeIn 0.1s forwards;
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+}
+
+.typewriter span:nth-child(2) {
+    animation: fadeIn 0.1s forwards 0.1s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(3) {
+    animation: fadeIn 0.1s forwards 0.2s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(4) {
+    animation: fadeIn 0.1s forwards 0.3s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(5) {
+    animation: fadeIn 0.1s forwards 0.4s;
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(6) {
+    animation: fadeIn 0.1s forwards 0.5s;
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(7) {
+    animation: fadeIn 0.1s forwards 0.6s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(8) {
+    animation: fadeIn 0.1s forwards 0.7s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(9) {
+    animation: fadeIn 0.1s forwards 0.8s;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.typewriter span:nth-child(10) {
+    animation: fadeIn 0.1s forwards 0.8s;
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(11) {
+    animation: fadeIn 0.1s forwards 0.8s;
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+small{
+    color: white;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Robonotes</title>
+        <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
+    </head>
+    <body>
+        {{!-- {{>header}} --}}
+
+        {{>header}}
+        <h1>Get Your Summary</h1>
+        <div class="vid">
+            <input type="text" name="video" class="vidLink" placeholder="paste video link here">
+            
+            <button class="generator" >Generate</button>
+        </div>
+        <br>
+        <textarea name="summary" cols="100" rows="25" id="generatedContent"></textarea>
+            {{>footer}}
+    </body>
+            
+    
+    <style>
+            @keyframes slideGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+    }
+
+        body {
+            margin: 0; 
+            padding: 0; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            background-color: black;
+        }
+        
+        h1 {
+            margin-top: 50px; /* Add margin to top */
+            background: linear-gradient(to bottom right, rgb(217, 59, 85), rgb(45, 168, 210));
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: slideGradient 2.5s linear infinite;
+        }
+        
+        .generator {
+            border-radius: 20px;
+            border: none;
+            font-size: medium;
+            font-family: 'Roboto', sans-serif;
+            margin-left: 10px;
+            width: 90px;
+            height: 30px;
+            background-color: rgb(45, 168, 210);
+            color: white;
+            
+        }
+        
+        .generator:active{
+            background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
+            
+        }
+        
+        .vid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .vidLink {
+            border: none;
+            border-radius: 20px;
+            width: 400px;
+            height: 20px;
+            outline: none;
+        }
+        
+        #generatedContent {
+            margin-top: 20px; /* Add margin to top */
+            border: none;
+            outline: none;
+        }
+    </style>
+</html> 
+
