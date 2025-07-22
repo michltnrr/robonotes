@@ -32,7 +32,7 @@ app.get(`/summary`, async (req, res) => {
     console.log(videoID)
     
     const transcript = await getTranscript(videoID)
-    console.log(transcript)
+    // console.log(transcript)
     const response = await main(transcript)
     // console.log(response)
     
