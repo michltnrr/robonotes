@@ -1,7 +1,11 @@
 const url = document.querySelector(`.vidLink`)
-const actualSummary = document.querySelector(`#generatedContent`)
+const textarea = document.querySelector(`#generatedContent`)
+const button = document.querySelector(`.generator`)
 
 async function getData() {
-    const summaryFetch = fetch(`/summary?rul=${url}`)
-    const scriptData = await summaryFetch.json()
+    const summaryFetch = await fetch(`/summary?url=${encodeURIComponent(url.value)}`)
+    const {summarization} = await summaryFetch.json()
+    textarea.value = summarization
 }
+
+button.addEventListener(`click`, getData)

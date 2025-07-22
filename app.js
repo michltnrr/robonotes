@@ -34,7 +34,8 @@ app.get(`/summary`, async (req, res) => {
     // console.log(response)
     
     res.send({
-        summarization: response
+        summarization: response,
+        name: `Mike Turner`
     })
 
 
