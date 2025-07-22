@@ -15,37 +15,33 @@ app.set(`view engine`, `hbs`)
 app.set(`views`, viewsPath)
 hbs.registerPartials(partialsPath)
 
-
 app.get(`/`, (req, res) => {
     res.render(`index`, {
         name: `Mike Turner`
     })
 })
 
-app.get(`/summary`, async (req, res) => {
+app.get(`/summary`, (req, res) => {
+    res.render(`summary`, {
+        name: 'Mike Turner'
+    })
+
+})
+
+//route for api summaries
+app.get(`/api/summary`, async (req, res) => {
     if(!req.query.url) {
         return res.send(`Please provide a url for the video`)
     }
 
-    console.log(req.query.url)
     const videoID = req.query.url.slice(req.query.url.indexOf(`=`)+1)
-    console.log(videoID)
-    
     const transcript = await getTranscript(videoID)
-    // console.log(transcript)
     const response = await main(transcript)
-    // console.log(response)
     
     res.send({
         summarization: response,
         name: `Mike Turner`
     })
-
-
-    // res.render(`summary`, {
-    //     name: 'Mike Turner'
-    // })
-
 })
 
 app.listen(4000, () => {
