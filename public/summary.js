@@ -1,7 +1,7 @@
-import { main } from './robonotes.js'; 
+const url = document.querySelector(`.vidLink`)
+const actualSummary = document.querySelector(`#generatedContent`)
 
-const button = document.querySelector('.generator'); 
-button.addEventListener('click', async () => { 
-    const data = document.getElementById('generatedContent');
-    data.innerHTML = await main(); 
-});
+async function getData() {
+    const summaryFetch = fetch(`/summary?rul=${url}`)
+    const scriptData = await summaryFetch.json()
+}

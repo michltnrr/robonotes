@@ -1,16 +1,14 @@
 const express = require(`express`)
 const hbs = require(`hbs`)
 const path = require(`path`)
-const getTranscript = require(`./public/youtube.js`)
+const {getTranscript} = require(`./public/youtube.js`)
+const {main} = require(`./public/openai-app.js`)
 
 const app = express()
 
 const viewsPath = path.join(__dirname, `/views`)
 const partialsPath = path.join(__dirname, `/views/partials`)
 const publicPath = path.join(__dirname, '/public')
-// console.log(__dirname)
-// console.log(viewsPath)
-// console.log(partialsPath)
 
 app.use(express.static(publicPath))
 app.set(`view engine`, `hbs`)
@@ -29,12 +27,20 @@ app.get(`/summary`, async (req, res) => {
         return res.send(`Please provide a url for the video`)
     }
 
-    const trasncript = await getTranscript(req.query.url)
-
-
-    res.render(`summary`, {
-        name: 'Mike Turner'
+    console.log(req.query.url)
+    
+    const transcript = await getTranscript(req.query.url)
+    const response = await main(transcript)
+    // console.log(response)
+    
+    res.send({
+        summarization: response
     })
+
+
+    // res.render(`summary`, {
+    //     name: 'Mike Turner'
+    // })
 
 })
 
