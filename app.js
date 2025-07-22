@@ -28,8 +28,11 @@ app.get(`/summary`, async (req, res) => {
     }
 
     console.log(req.query.url)
+    const videoID = req.query.url.slice(req.query.url.indexOf(`=`)+1)
+    console.log(videoID)
     
-    const transcript = await getTranscript(req.query.url)
+    const transcript = await getTranscript(videoID)
+    console.log(transcript)
     const response = await main(transcript)
     // console.log(response)
     
