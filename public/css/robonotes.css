@@ -1,7 +1,7 @@
 body{
 
     font-family: straight-strokes,sans-serif;
-    background-color: #101010;
+    background-color: #181818;
 }
 
 .homebutton {
@@ -16,7 +16,6 @@ h1 {
 
  .me{
     text-decoration: none;
-    /* color: cornflowerblue; */
  }
  .me:visited{
     color: rgb(255, 255, 255);
