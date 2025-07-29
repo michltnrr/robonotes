@@ -3,6 +3,7 @@ const textarea = document.querySelector(`#generatedContent`)
 const button = document.querySelector(`.generator`)
 
 async function getData() {
+    //make try catch block here and display error in textarea if needed
     textarea.textContent = `Summarizing...`
     const summaryFetch = await fetch(`/api/summary?url=${encodeURIComponent(url.value)}`)
     const {summarization} = await summaryFetch.json()
