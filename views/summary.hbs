@@ -17,6 +17,15 @@
             
             <button class="generator">Generate</button>
         </div>
+            
+            <div class="postsum-butt">
+            
+            <button id="clipboard" hidden>Copy</button>
+            <button id="clear" hidden>Clear</button>
+
+            </div>
+        
+        
         <br>
         <textarea name="summary" cols="100" rows="25" id="generatedContent"></textarea>
         <script src="/summary.js"></script>
@@ -77,6 +86,52 @@
             background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
             
         }
+        
+        #clipboard {
+            border: none;
+            border-radius: 20px;
+            font-size: medium;
+            font-family: 'Roboto', sans-serif;
+            width: 70px;
+            height: 30px;
+            margin-right: 135px;
+            margin-top: 20px;
+            background: linear-gradient(to right, rgb(217, 59, 85), rgb(255, 47, 0));
+            color: white;
+        }
+
+        #clipboard:hover {
+            color: black;
+        }
+
+        #clipboard:active {
+            color:black !important;
+            background-color: indianred !important;
+            background: indianred;
+        }
+
+        #clear {
+            border: none;
+            border-radius: 20px;
+            width: 70px;
+            height: 30px;
+            color: white;
+            background:rgb(45, 168, 210);
+            font-size: medium;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+            margin-right: 30px;
+        }
+        #clear:hover {
+            color: black;
+        }
+        #clear:active {
+            color: black;
+            background: rgb(31, 117, 146);
+        }
+
+     
+        
         
         .vid {
             display: flex;
