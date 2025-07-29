@@ -4,21 +4,24 @@
         <meta charset="utf-8">
         <title>Robonotes</title>
         <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
     </head>
     <body>
-        {{!-- {{>header}} --}}
 
         {{>header}}
-        <h1>Get Your Summary</h1>
+        <div class="main-content">
+        <h1 id="summary-head">Get Your Summary</h1>
         <div class="vid">
             <input type="text" name="video" class="vidLink" placeholder="paste video link here">
             
-            <button class="generator" >Generate</button>
+            <button class="generator">Generate</button>
         </div>
         <br>
         <textarea name="summary" cols="100" rows="25" id="generatedContent"></textarea>
-            {{>footer}}
         <script src="/summary.js"></script>
+        </div>
+            {{>footer}}
     </body>
             
     
@@ -31,21 +34,24 @@
         background-position: 100% 50%;
     }
     }
-
         body {
+            background-color: #181818;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .main-content{
             margin: 0; 
             padding: 0; 
-            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center; 
-            justify-content: center; 
             font-family: 'Roboto', sans-serif;
             color: white;
             background-color: #181818;
         }
         
-        h1 {
+        #summary-head {
             margin-top: 50px; /* Add margin to top */
             background: linear-gradient(to bottom right, rgb(217, 59, 85), rgb(45, 168, 210));
             background-clip: text;
@@ -90,14 +96,6 @@
             margin-top: 20px; /* Add margin to top */
             border: none;
             outline: none;
-        }
-
-
-        .me{
-            text-decoration: none;
-        }
-        .me:visited{
-            color: rgb(255, 255, 255);
         }
     </style>
 </html> 

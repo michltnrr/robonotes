@@ -1,0 +1,16 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 100;
+}
+
+.me{
+    text-decoration: none;
+    margin-top: 635px;
+ }
+ .me:visited{
+    color: rgb(255, 255, 255);
+ }
