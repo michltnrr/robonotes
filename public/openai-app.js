@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import OpenAI from 'openai';
 dotenv.config()
-// console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY);
 
 const openai = new OpenAI();
 const prompt = "Given the transcript of this video, summarize the main ideas in 2 paragraphs, then using bullet points, \
