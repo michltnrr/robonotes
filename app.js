@@ -44,6 +44,12 @@ app.get(`/api/summary`, async (req, res) => {
     })
 })
 
+app.get(`/assistant`, (req, res) => {
+    res.render(`assistant`, {
+        name: `Mike Turner`
+    })
+})
+
 app.listen(4000, () => {
     console.log(`Server is running on port 4000.`)
 })

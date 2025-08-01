@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Robonotes</title>
+
+        <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
+
+    </head>
+
+    <body>
+        {{>header}}
+
+       <div class="writer-form">
+        
+        <h1>Essay Writer</h1>
+        
+        <br>
+        <form class="form-info">
+            
+            <label for="title" class="form-sections">Essay Title</label>
+            <br>
+            <input type="text" id="title" name="essay-title" placeholder="Why Robonotes rocks" class="nonbuttons">
+            <br>
+            
+        <div class="horizontal-group">
+            <div class="horizontal-item">
+                <label class="form-sections">Format</label>
+                <br>
+                <input type="radio" id="mla-format" value="MLA" name="formatter"> 
+                <label for="mla-format">MLA</label>
+                <input type="radio" id="apa-format" value="APA" name="formatter">
+                <label for="apa-format">APA</label>
+            </div>
+
+            <div class="horizontal-item" id="pages-info">
+                <label for="num-pages" class="form-sections">Pages</label>
+                <input type="number" id="num-pages" name="pages" class="nonbuttons">
+            </div>
+        </div>
+
+            <br>
+
+    <div class="horizontal-group">
+            <div class="horizontal-item">
+                <label for="professor" class="form-sections">Professor's Name</label>
+                <br>
+                <input type="text" id="professor" class="nonbuttons" placeholder="Professor's full name">
+            </div>
+            
+            <div class="horizontal-item">
+                <label for="users-fullname" class="form-sections">Your Name</label>
+                <br>
+                <input type="text" id="users-fullname" class="nonbuttons" placeholder="Your full name">
+            </div>
+        </div>
+            
+            <br>
+            <label for="classname" class="form-sections">Class Name</label>
+            <input type="text" name="class" id="classname" placeholder="Ex. HIS 2040" class="nonbuttons">
+
+        <p id="sources">Add Sources:</p>
+
+        <p class="form-sections">Guidelines</p>
+        <textarea name="guidelines" id="guidelines" placeholder="Ex. The essay should be approximately four to six pages in length, or about 1,200 to 1,800 words, and must be double-spaced in 12-point Times New Roman font with one-inch margins."></textarea>
+        
+        <br>
+        
+        <a href=""><button id="essay-link">Generate</button></a>
+
+        </form>
+       
+       
+       </div>
+        {{>footer}}
+   
+    <style>
+        body {
+            background-color: #181818;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+            
+
+        .writer-form {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            background: #181818;
+            box-shadow: 0 8px 32px 0 rgba(27, 107, 218, 0.472);
+            backdrop-filter: blur(8px);
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            margin: 30px auto;
+            width: 80%;
+            transition: all 0.3s ease;
+        }
+
+        .writer-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 106, 255, 0.701);
+        }
+
+        .form-sections {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+        }
+
+        .nonbuttons {
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            background-color: rgb(49, 49, 49);
+            color: white;
+        }
+        
+        #num-pages{
+            width: 23%;
+        }
+
+        #title {
+            width: 50%;
+        }
+
+        #classname {
+            width: 17%;
+        }
+
+        #sources {
+            font-size: small;
+            color: #414141;
+
+        }
+
+        #guidelines {
+            background-color: #414141
+            color: white;
+            width: 500px;
+            height: 125px;
+        }
+
+        #essay-link{
+            width: 200px;
+            height: 25px;
+            color: white;
+            background-color: #4A85E7;
+            border: none;
+            border-radius: 5px;
+            margin-left: 150px;
+        }
+
+        #essay-link:hover{
+            background-color: #D93B55;
+        }
+        #essay-link:active {
+            color:black;
+        }
+
+        .horizontal-group {
+        display: flex;
+        justify-content: space-between;
+        width: 75%;
+        gap: 20px;
+        }
+
+        .horizontal-item {
+            flex: 1;
+        }
+
+        #pages-info {
+            margin-top: 18px;
+        }
+    </style>
+
+    </body>
+
+</html>
