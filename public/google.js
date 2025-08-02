@@ -22,7 +22,7 @@ async function writeDocument(mydoucmentId) {
                         location: {
                             index: 1,
                         },
-                        text: `this was written using node.js, it'll later be written using the chat-gpt api`
+                        text: `This paper should now be ready to be written completely using ai, which should be easy, the hard part will be diggign throught the docs for formatting. \nOnce we do that, we're in the green.`
                     }
                 }
             }

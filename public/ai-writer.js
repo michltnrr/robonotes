@@ -1,7 +1,6 @@
-
 const generateButton = document.querySelector(`#essay-link`)
 
-generateButton.addEventListener(`click`, async (e) => {
+async function fetchEssayData(e) {
     e.preventDefault()
     
     const pages = document.querySelector(`#num-pages`).value
@@ -15,4 +14,7 @@ generateButton.addEventListener(`click`, async (e) => {
     const essayFetch = await fetch(url)
     const essayData = await essayFetch.json()
     console.log(essayData) 
-})
+    
+}
+
+generateButton.addEventListener(`click`, fetchEssayData)
