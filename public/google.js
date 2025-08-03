@@ -16,7 +16,7 @@ async function writeDocument(mydoucmentId) {
         })
         const essayFile = fs.readFileSync(`generated-essay.json`).toString()
         const paperData = JSON.parse(essayFile)
-        const documentText = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n\n\t\t${paperData.title}\n\n\b ${paperData.intro} ${paperData.body} ${paperData.conclusion}`
+        const documentText = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n\n\t\t${paperData.title}\n\n ${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         
         const writter = await docs.documents.batchUpdate({
             documentId: mydoucmentId,
@@ -40,11 +40,11 @@ async function writeDocument(mydoucmentId) {
                     updateTextStyle: {
                         range: {
                             startIndex: 1,
-                            endIndex: 1+ documentText.length,
+                            endIndex: 1 + documentText.length,
                         },
                         textStyle: {
                             weightedFontFamily: {
-                                fontFamily: `Tinos`,
+                                fontFamily: `Times New Roman`,
                             },
                             
                             fontSize: {
