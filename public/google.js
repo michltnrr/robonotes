@@ -8,7 +8,7 @@ const auth = new google.auth.GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/documents']
 })
 
-async function writeDocument(mydoucmentId) {
+async function writeDocument(mydocumentId) {
     try {
         const docs = google.docs({
             version: `v1`,
@@ -19,7 +19,7 @@ async function writeDocument(mydoucmentId) {
         const documentText = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n\n\t\t${paperData.title}\n\n ${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         
         const writter = await docs.documents.batchUpdate({
-            documentId: mydoucmentId,
+            documentId: mydocumentId,
             requestBody: {
                 requests: {
                     insertText: {
@@ -34,9 +34,10 @@ async function writeDocument(mydoucmentId) {
         
         //for mla format the date is also needed, need to add that 
         const formatter = await docs.documents.batchUpdate({
-            documentId: mydoucmentId,
+            documentId: mydocumentId,
             requestBody: {
-                requests: {
+                requests: [
+                {
                     updateTextStyle: {
                         range: {
                             startIndex: 1,
@@ -55,9 +56,25 @@ async function writeDocument(mydoucmentId) {
                         fields: `weightedFontFamily,fontSize` 
                         
                     }, 
+                }, 
+            
+                {
+                updateParagraphStyle: {
+                    range: {
+                        startIndex: 1,
+                        endIndex: 1+ documentText.length,
+                    },
+                
+                    paragraphStyle: {
+                        lineSpacing: 2 * 100
+                    },
+                                
+                    fields: 'lineSpacing'
                 }
             }
-        })
+        ]
+    }
+})
 
     } catch(err) {
         console.error(err)
