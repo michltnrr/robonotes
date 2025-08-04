@@ -54,21 +54,40 @@ app.get(`/assistant`, (req, res) => {
 
 app.get(`/writer/assistant`, async (req, res) => {
     
-    if(!req.query.pages || !req.query.title || !req.query.profName || !req.query.usersName || !req.query.className || !req.query.guidelines) {
+    if(!req.query.pages || !req.query.title || !req.query.profName || !req.query.usersName || !req.query.className || !req.query.guidelines || !req.query.format || !req.query.date) {
             return res.send(`Your request must include the query key-value pairs for the title, professor name, writer name, classname, guidelines, and number of pages`)
         }
 
+    else if(req.query.format === 'MLA') {
         const client = new OpenAI()
         const response = await client.responses.create({
             model: `gpt-4.1`,
             input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long
         the professor's name, writer/users name, className, and essay title must be included in the response, professor name is ${req.query.profName}, classname is ${req.query.className}, users name is${req.query.usersName}, and the title and topic is ${req.query.title}
-        please return the essay in JSON format where the title, professorName, usersName, and className are properties on the object and so is the essays intro, body, and conclusion, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
+        please return the essay in JSON format where the title, professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
         })
     
         const essayJSON = response.output_text
         res.send(essayJSON)
         fs.writeFileSync(`generated-essay.json`, essayJSON)
+        
+    }
+    
+    else if (req.query.format === 'APA') {
+        const client = new OpenAI()
+        const response = await client.responses.create({
+            model: `gpt-4.1`,
+            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long. The format is ${req.query.format} format. In your response please return a JSON object with the properties title, abstract, introduction, and format. For the rest of the properties, they'll be the names of 
+            the next sections, so add more properties called section1, section2..., the amount of sections will be based on the amount of pages. The values of the properties will be the text for it, so the abstract property will contain the abstract, the introduction will contain the intro, and so on. The last property will be the conclusion
+            we want the JSON to be immediately parsable not wrapped up in strings`,
+        })
+    
+        const essayJSON = response.output_text
+        res.send(essayJSON)
+        fs.writeFileSync(`generated-essay.json`, essayJSON)
+        
+    }
+
 })
 
 app.listen(4000, () => {
