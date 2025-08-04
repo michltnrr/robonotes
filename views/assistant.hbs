@@ -25,6 +25,10 @@
             <input type="text" id="title" name="Title" placeholder="Why Robonotes rocks" class="nonbuttons">
             <br>
             
+       
+       
+       
+       
         <div class="horizontal-group">
             <div class="horizontal-item">
                 <label class="form-sections">Format</label>
@@ -33,16 +37,32 @@
                 <label for="mla-format">MLA</label>
                 <input type="radio" id="apa-format" value="APA" name="formatter">
                 <label for="apa-format">APA</label>
+                    
+                
             </div>
-
+            
+            
+            
+            
             <div class="horizontal-item" id="pages-info">
                 <label for="num-pages" class="form-sections">Pages</label>
                 <input type="number" id="num-pages" name="pages" class="nonbuttons">
             </div>
         </div>
+           
+           
+        <div class="date-items" hidden>
+            <label for="paper-date">Date</label>
+            <input type="text" id="paper-date" placeholder="Aug 3rd, 2025" name="data">
+        </div>
+            
 
-            <br>
+        <br>
 
+   
+   
+   
+   
     <div class="horizontal-group">
             <div class="horizontal-item">
                 <label for="professor" class="form-sections">Professor's Name</label>
@@ -129,6 +149,14 @@
 
         #classname {
             width: 17%;
+        }
+
+        .date-items {
+            margin-top: 10px;
+        }
+
+        #paper-date {
+            outline: none;
         }
 
         #sources {
