@@ -1,5 +1,4 @@
 const generateButton = document.querySelector(`#essay-link`)
-const dateItems = document.querySelector(`.date-items`)
 const mla = document.querySelector(`#mla-format`)
 const apa = document.querySelector(`#apa-format`)
 
@@ -10,10 +9,8 @@ function specifyFormat() {
         format = 'MLA'
     } else if (apa.checked === true) {
         format = 'APA'
-        dateItems.hidden = true
     }
     return format
-    
 }
 mla.addEventListener('change', specifyFormat)
 apa.addEventListener('change', specifyFormat)
