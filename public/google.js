@@ -24,9 +24,9 @@ async function writeDocument(mydocumentId) {
         })
         const essayFile = fs.readFileSync(`generated-essay.json`).toString()
         const paperData = JSON.parse(essayFile)
+        const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
         const paperTitle = `${paperData.title}\n`
-        const paperClassDeets= `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
-        const documentText = `\n\t\t\n\n ${paperData.intro} ${paperData.body} ${paperData.conclusion}`
+        const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         
         const writeDetails = await docs.documents.batchUpdate({
             documentId: mydocumentId,
