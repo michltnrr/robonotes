@@ -112,7 +112,6 @@ async function writeDocument(mydocumentId) {
                     updateTextStyle: {
                         range: {
                             startIndex: 1,
-                            //will throw error for now since we didnt write the rest of the text 
                             endIndex: 1 + documentText.length,
                         },
                         textStyle: {
