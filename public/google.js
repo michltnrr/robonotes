@@ -1,7 +1,6 @@
 const {google} = require(`googleapis`)
 require('dotenv').config()
 const fs = require(`fs`)
-const { text } = require('stream/consumers')
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
 const auth = new google.auth.GoogleAuth({
@@ -24,9 +23,44 @@ async function writeDocument(mydocumentId) {
         })
         const essayFile = fs.readFileSync(`generated-essay.json`).toString()
         const paperData = JSON.parse(essayFile)
+        
+        const userLastName = paperData.usersName
+        const last = userLastName.slice(userLastName.indexOf(" "))
+        console.log(last)
+        
         const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
         const paperTitle = `${paperData.title}\n`
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
+
+        // const writeMLAHeader = await docs.documents.batchUpdate({
+        //     documentId: mydocumentId,
+        //     requestBody: {
+        //         requests: [
+        //             {
+        //                 createHeader: {
+        //                    type: "DEFAULT",
+        //                 //    sectionBreakLocation: 
+        //                 //    {
+        //                 //     segmentId: "",
+        //                 //     index: 1,
+        //                 //     tab: "",
+        //                 //    }
+        //                 },
+                        
+        //             },
+
+        //             {
+        //                 insertText: {
+        //                     location: {
+        //                         index: 1,
+        //                     },
+        //                     text: last,
+        //                 }
+        //             }
+                    
+        //         ]
+        //     }
+        // })
         
         const writeDetails = await docs.documents.batchUpdate({
             documentId: mydocumentId,
