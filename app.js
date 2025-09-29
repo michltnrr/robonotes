@@ -62,14 +62,13 @@ app.get(`/writer/assistant`, async (req, res) => {
         const client = new OpenAI()
         const response = await client.responses.create({
             model: `gpt-4.1`,
-            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long
-        the professor's name, writer/users name, className, date, and essay title must be included in the response, professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, and the title and topic is ${req.query.title}
-        please return the essay in JSON format where the title, professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
+            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long the professor's name, writer/users name, className, date, format, and essay title must be included in the response, 
+            professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, the format is ${req.query.format} and the title and topic is ${req.query.title} please return the essay in JSON format where the title, 
+            professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
         })
     
         const essayJSON = response.output_text
         //log just for testing to know when response is done i can check dev console
-        console.log(essayJSON)
         res.send(essayJSON)
         fs.writeFileSync(`generated-essay.json`, essayJSON)
     }
