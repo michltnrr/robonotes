@@ -37,7 +37,7 @@
                 <label for="mla-format">MLA</label>
                 <input type="radio" id="apa-format" value="APA" name="formatter">
                 <label for="apa-format">APA</label>
-                    
+                <small id="disclaimer" hidden="true">*Additional formatting for headers must be done by user</small>
                 
             </div>
             
@@ -81,8 +81,11 @@
             <label for="classname" class="form-sections">Class Name</label>
             <input type="text" name="className" id="classname" placeholder="Ex. HIS 2040" class="nonbuttons">
 
+        <div class="sources">
         <p id="sources">Add Sources:</p>
-        <button class="sources" id="source1">Add source</button>
+        <button class="sources" id="add-source">Add source</button>
+
+        </div>
 
         {{!-- <input type="text" class="sources" name="firstsource" id="source1"> --}}
 
@@ -133,6 +136,15 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 800;
         }
+        
+        #disclaimer {
+            font-size: 0.60rem; /* smaller text */
+            color: #f84a64; /* soft red-pink */
+            text-shadow: 0 0 3px rgba(255, 107, 129, 0.5); /* faint glow */
+            margin-top: 5px; /* space below buttons */
+            white-space: nowrap; /* keep text on one line */
+        }
+
 
         .nonbuttons {
             border: none;

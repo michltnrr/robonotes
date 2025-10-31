@@ -15,6 +15,25 @@ async function getLastIndex(docs, mydocumentId)
     return  doc.data.body.content[doc.data.body.content.length - 1].endIndex;
 }
 
+const appScriptUrl = process.env.APP_SCRIPT_URL
+async function applyMLAHeader(documentId, lastName) {
+  const appsScriptUrl = appScriptUrl;
+
+  try {
+    const response = await fetch(appsScriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ documentId, lastName })
+    });
+
+    const data = await response.text(); // Apps Script usually returns text
+    console.log("✅ Header applied:", data);
+  } catch (err) {
+    console.error("err.message");
+  }
+}
+
+
 async function writeDocument(mydocumentId) {
     try {
         const docs = google.docs({
@@ -31,74 +50,49 @@ async function writeDocument(mydocumentId) {
         const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
         const paperTitle = `${paperData.title}\n`
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
-
-        // const writeMLAHeader = await docs.documents.batchUpdate({
-        //     documentId: mydocumentId,
-        //     requestBody: {
-        //         requests: [
-        //             {
-        //                 createHeader: {
-        //                    type: "DEFAULT",
-        //                 //    sectionBreakLocation: 
-        //                 //    {
-        //                 //     segmentId: "",
-        //                 //     index: 1,
-        //                 //     tab: "",
-        //                 //    }
-        //                 },
-                        
-        //             },
-
-        //             {
-        //                 insertText: {
-        //                     location: {
-        //                         index: 1,
-        //                     },
-        //                     text: last,
-        //                 }
-        //             }
-                    
-        //         ]
-        //     }
-        // })
         
+        
+        await applyMLAHeader(mydocumentId, last)
+        
+        // write usersname, classname etc
         const writeDetails = await docs.documents.batchUpdate({
             documentId: mydocumentId,
             requestBody: {
                 requests: [
                     {
-                    insertText: {
-                        location: {
-                            index: 1,
-                        },
-                        text: paperClassDeets,
+                        insertText: {
+                            location: {
+                                index: 1,
+                            },
+                            text: paperClassDeets,
+                        }
+                    },
+                ]
+            }
+            
+        })
+        
+        let recentIndex = await getLastIndex(docs, mydocumentId)
+        
+        //write title & format of paper 
+        const writeTitle = await docs.documents.batchUpdate({
+            documentId: mydocumentId,
+            requestBody: {
+                requests: [
+                    {
+                        insertText: {
+                            location: {
+                                index: recentIndex-1,
+                            },
+                            text: paperTitle,
+                        }
                     }
-                },
-            ]
-        }
-
-    })
-
-    let recentIndex = await getLastIndex(docs, mydocumentId)
-    
-    const writeTitle = await docs.documents.batchUpdate({
-        documentId: mydocumentId,
-        requestBody: {
-            requests: [
-                {
-                    insertText: {
-                        location: {
-                            index: recentIndex-1,
-                        },
-                        text: paperTitle,
-                    }
-                }
-            ]
-        }
-    })
-    
-    const startIndexT = recentIndex -1
-    const titleendIndex = startIndexT + paperTitle.length
+                ]
+            }
+        })
+        
+        const startIndexT = recentIndex -1
+        const titleendIndex = startIndexT + paperTitle.length
 
     const centerTitle = await docs.documents.batchUpdate({
         documentId: mydocumentId,
@@ -124,6 +118,7 @@ async function writeDocument(mydocumentId) {
     
     recentIndex = await getLastIndex(docs, mydocumentId)
     
+    //write essay body 
     const writeEssay = await docs.documents.batchUpdate({
         documentId: mydocumentId,
         requestBody: {
@@ -179,9 +174,9 @@ async function writeDocument(mydocumentId) {
             }
         ]
     }
-})
-
-    } catch(err) {
+  })
+} 
+catch(err) {
         console.error(err)
     }
 }

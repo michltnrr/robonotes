@@ -1,14 +1,17 @@
 const generateButton = document.querySelector(`#essay-link`)
 const mla = document.querySelector(`#mla-format`)
 const apa = document.querySelector(`#apa-format`)
+const disclaimer = document.querySelector(`#disclaimer`)
 
 let format
 
 function specifyFormat() {
     if(mla.checked === true) {
         format = 'MLA'
+        disclaimer.hidden = false
     } else if (apa.checked === true) {
         format = 'APA'
+        disclaimer.hidden = false
     }
     return format
 }
