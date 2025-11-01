@@ -16,6 +16,7 @@ async function getLastIndex(docs, mydocumentId)
 }
 
 const appScriptUrl = process.env.APP_SCRIPT_URL
+
 async function applyMLAHeader(documentId, lastName) {
   const appsScriptUrl = appScriptUrl;
 
@@ -50,6 +51,7 @@ async function writeDocument(mydocumentId) {
         const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
         const paperTitle = `${paperData.title}\n`
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
+        const paperSources = paperData.citations
         
         
         await applyMLAHeader(mydocumentId, last)
@@ -132,6 +134,108 @@ async function writeDocument(mydocumentId) {
             }
         }
     })
+    
+    //create works cited page
+    recentIndex = await getLastIndex(docs, mydocumentId)
+    const writeSources = await docs.documents.batchUpdate({
+        documentId: mydocumentId,
+        requestBody: {
+            requests: [
+                {
+                    insertPageBreak: {
+                        location: {
+                            index: recentIndex-1,
+                        }
+                    }
+                },
+            ]
+        }
+    })
+    
+    //write "Works Cited"
+     recentIndex = await getLastIndex(docs, mydocumentId)
+    await docs.documents.batchUpdate({
+        documentId: mydocumentId,
+        requestBody: {
+            requests: [
+                {
+                    insertText: {
+                        location: {
+                            index:recentIndex-1,
+                        },
+                        text: "Works Cited",
+                    } 
+                }, 
+            ]
+        }
+    })
+
+    //center works cited
+     const startWrkIndex = recentIndex -1
+     const WrkendIndex = startWrkIndex + "Works Cited".length
+
+     await docs.documents.batchUpdate({
+        documentId: mydocumentId,
+        requestBody: {
+            requests: [
+                {
+                    updateParagraphStyle: {
+                        range: {
+                            startIndex: startWrkIndex,
+                            endIndex: WrkendIndex,
+                        },
+
+
+                        paragraphStyle: {
+                            alignment: "CENTER",
+                        },
+                        fields: "alignment",
+                    }
+                }
+            ]
+        }
+    })
+
+    //realign to left (simple way)
+    recentIndex = await getLastIndex(docs, mydocumentId)
+    await docs.documents.batchUpdate({
+        documentId: mydocumentId,
+        requestBody: {
+            requests: [
+                {
+                insertText: {
+                    location: {
+                        index: recentIndex-1,
+                    },
+                    text: "\n\n\b\t"
+                }
+                }
+            ]
+        }
+    })
+
+    //actually write the sources
+    for(let i = 0; i < paperSources.length; i++) {
+        
+        recentIndex = await getLastIndex(docs, mydocumentId)
+        await docs.documents.batchUpdate({
+            documentId: mydocumentId,
+            requestBody: {
+                requests: [
+                    {
+                        insertText: {
+                            location: {
+                                index: recentIndex-1,
+                            },
+                            text: `${paperSources[i]}\n`
+    
+                        }
+                    }
+                ]
+            }
+        })
+    }
+
         await new Promise((r) => setTimeout(r, 1000))
 
         const doc = await docs.documents.get({documentId: mydocumentId})

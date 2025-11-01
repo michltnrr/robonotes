@@ -58,7 +58,7 @@ async function fetchEssayData(e) {
         guidelines,
         format: essayFormat,
         date,
-        sources: JSON.stringify(linkURLS) // you can send as JSON string
+        sources: JSON.stringify(linkURLS) 
     }).toString();
 
     const essayFetch = await fetch(url)
