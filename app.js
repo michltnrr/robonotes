@@ -54,7 +54,7 @@ app.get(`/assistant`, (req, res) => {
 
 app.get(`/writer/assistant`, async (req, res) => {
     
-    if(!req.query.pages || !req.query.title || !req.query.profName || !req.query.usersName || !req.query.className || !req.query.guidelines || !req.query.format || !req.query.date) {
+    if(!req.query.pages || !req.query.title || !req.query.profName || !req.query.usersName || !req.query.className || !req.query.guidelines || !req.query.format || !req.query.date || !req.query.sources) {
             return res.send(`Your request must include the query key-value pairs for the title, professor name, writer name, classname, guidelines, and number of pages`)
         }
 
@@ -62,9 +62,9 @@ app.get(`/writer/assistant`, async (req, res) => {
         const client = new OpenAI()
         const response = await client.responses.create({
             model: `gpt-4.1`,
-            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long the professor's name, writer/users name, className, date, format, and essay title must be included in the response, 
-            professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, the format is ${req.query.format} and the title and topic is ${req.query.title} please return the essay in JSON format where the title, 
-            professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
+            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long the professor's name, writer/users name, className, date, format,essay title, and the sources must be included in the response, 
+            professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, the format is ${req.query.format} and the title and topic is ${req.query.title}, the links to the sources are ${req.query.sources}, include in text MLA style citations in the body of the essay,  
+            please return the essay in JSON format where the title, professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, lastly, create a citations property in the response which is an array of MLA citations using the sources provided in the request, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
         })
     
         const essayJSON = response.output_text

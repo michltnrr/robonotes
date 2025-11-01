@@ -83,8 +83,10 @@
 
         <div class="sources">
         <p id="sources">Add Sources:</p>
-        <button class="sources" id="add-source">Add source</button>
-
+        <div id="sources-container"> 
+          <input type="url" placeholder="link to article" class="source-inputs">
+        </div>
+        <button id="add-source">Add source</button>
         </div>
 
         {{!-- <input type="text" class="sources" name="firstsource" id="source1"> --}}
@@ -177,7 +179,30 @@
         #sources {
             font-size: small;
             color: #414141;
+        }
 
+        .sources {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #sources-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .source-inputs {
+            border-radius: 20px;
+            background-color:  rgb(49, 49, 49);
+            outline: none;
+            border: none;
+            color: white;
+        }
+
+        #add-source {
+            align-self: flex-start;
+            margin-top: 6px;
         }
 
         #guidelines {

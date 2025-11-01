@@ -132,6 +132,10 @@ async function writeDocument(mydocumentId) {
             }
         }
     })
+        await new Promise((r) => setTimeout(r, 1000))
+
+        const doc = await docs.documents.get({documentId: mydocumentId})
+        const fullLength = doc.data.body.content[doc.data.body.content.length-1].endIndex
         
         const formatter = await docs.documents.batchUpdate({
             documentId: mydocumentId,
@@ -141,7 +145,7 @@ async function writeDocument(mydocumentId) {
                     updateTextStyle: {
                         range: {
                             startIndex: 1,
-                            endIndex: 1 + documentText.length,
+                            endIndex: fullLength,
                         },
                         textStyle: {
                             weightedFontFamily: {
@@ -162,7 +166,7 @@ async function writeDocument(mydocumentId) {
                 updateParagraphStyle: {
                     range: {
                         startIndex: 1,
-                        endIndex: 1+ documentText.length,
+                        endIndex: fullLength,
                     },
                 
                     paragraphStyle: {
