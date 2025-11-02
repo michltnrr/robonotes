@@ -289,6 +289,3 @@ catch(err) {
         console.error(err)
     }
 }
-
-
-// writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
