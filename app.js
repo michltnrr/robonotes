@@ -4,6 +4,7 @@ const path = require(`path`)
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require("openai")
+const {writeDocument} = require(`./google.js`)
 const fs = require(`fs`)
 
 const app = express()
@@ -87,6 +88,17 @@ app.get(`/writer/assistant`, async (req, res) => {
         fs.writeFileSync(`generated-essay.json`, essayJSON)
     }
 })
+
+
+app.post('/write-doc', async (req, res) => {
+  try {
+    await writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 app.listen(4000, () => {
     console.log(`Server is running on port 4000.`)

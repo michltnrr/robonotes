@@ -1,6 +1,7 @@
-const {google} = require(`googleapis`)
-require('dotenv').config()
-const fs = require(`fs`)
+import {google} from 'googleapis'
+import dotenv from 'dotenv'
+dotenv.config()
+import fs from 'fs'
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
 const auth = new google.auth.GoogleAuth({
@@ -35,7 +36,7 @@ async function applyMLAHeader(documentId, lastName) {
 }
 
 
-async function writeDocument(mydocumentId) {
+export async function writeDocument(mydocumentId) {
     try {
         const docs = google.docs({
             version: `v1`,
@@ -288,4 +289,6 @@ catch(err) {
         console.error(err)
     }
 }
-writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
+
+
+// writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)

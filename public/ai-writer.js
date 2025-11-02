@@ -7,6 +7,7 @@ const addSource = document.querySelector(`#add-source`)
 const sourcesContainer = document.querySelector(`#sources-container`)
 
 let format
+let essayDone = false
 
 function specifyFormat() {
     if(mla.checked === true) {
@@ -33,6 +34,10 @@ addSource.addEventListener(`click`, (e) => {
 
 async function fetchEssayData(e) {
     e.preventDefault()
+    if(!essayDone) {
+    generateButton.disabled = true
+    generateButton.textContent = `Generating...`
+    
     
     const pages = document.querySelector(`#num-pages`).value
     const essayTitle = document.querySelector(`#title`).value
@@ -64,6 +69,22 @@ async function fetchEssayData(e) {
     const essayFetch = await fetch(url)
     const essayData = await essayFetch.json()
     console.log(essayData) 
+
+   const writeResponse = await fetch("/write-doc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    })
+
+
+      const writeResult = await writeResponse.json();
+      if (!writeResult.success) throw new Error(writeResult.error);
     
+    essayDone = true;
+    generateButton.disabled = false
+    generateButton.textContent = `View Essay`
+   }
+//    else {
+    window.open(`https://docs.google.com/document/d/122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0/edit?tab=t.0`, `_blank`)
+//    }
 }
 generateButton.addEventListener(`click`, fetchEssayData)
