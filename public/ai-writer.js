@@ -85,8 +85,6 @@ async function fetchEssayData(e) {
     generateButton.style.opacity = 1.0
     generateButton.textContent = `View Essay`
 }
-
-window.open(`https://docs.google.com/document/d/122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0/edit?tab=t.0`, `_blank`)
-
+    window.open(`https://docs.google.com/document/d/122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0/edit?tab=t.0`, `_blank`)
 }
 generateButton.addEventListener(`click`, fetchEssayData)
