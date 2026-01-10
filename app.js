@@ -4,10 +4,19 @@ const path = require(`path`)
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require("openai")
-const {writeDocument} = require(`./google.js`)
+// const {writeDocument} = require(`./google.js`)
 const fs = require(`fs`)
+const cors = require(`cors`)
 
 const app = express()
+
+app.use(cors({
+  origin: "*", // allow all origins locally
+  methods: ["GET", "POST", "OPTIONS"]
+}));
+
+
+app.use(express.json())
 
 const viewsPath = path.join(__dirname, `/views`)
 const partialsPath = path.join(__dirname, `/views/partials`)
@@ -90,16 +99,36 @@ app.get(`/writer/assistant`, async (req, res) => {
 })
 
 
-app.post('/write-doc', async (req, res) => {
-  try {
-    await writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`);
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  next();
 });
 
 
+
+// app.post('/write-doc', (req, res) => {
+//   const { documentId } = req.body;
+
+//   if (!documentId) {
+//     return res.status(400).json({ success: false, error: 'documentId required' });
+//   }
+
+//   // 🔥 Respond immediately
+//   res.json({ success: true });
+
+//   // 🧠 Run heavy work AFTER response
+//   setImmediate(async () => {
+//     try {
+//       await writeDocument(documentId);
+//       console.log('✅ writeDocument finished');
+//     } catch (err) {
+//       console.error('❌ writeDocument failed:', err);
+//     }
+//   });
+// });
+
+
+
 app.listen(4000, () => {
-    console.log(`Server is running on port 4000.`)
-})
+  console.log('Server running on port 4000');
+});

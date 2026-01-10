@@ -16,24 +16,24 @@ async function getLastIndex(docs, mydocumentId)
     return  doc.data.body.content[doc.data.body.content.length - 1].endIndex;
 }
 
-const appScriptUrl = process.env.APP_SCRIPT_URL
+// const appScriptUrl = process.env.APP_SCRIPT_URL
 
-async function applyMLAHeader(documentId, lastName) {
-  const appsScriptUrl = appScriptUrl;
+// async function applyMLAHeader(documentId, lastName) {
+//   const response = await fetch(appScriptUrl, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ documentId, lastName }),
+//   });
 
-  try {
-    const response = await fetch(appsScriptUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ documentId, lastName })
-    });
+//   if (!response.ok) {
+//     throw new Error(`Header failed: ${response.status}`);
+//   }
 
-    const data = await response.text(); // Apps Script usually returns text
-    console.log("✅ Header applied:", data);
-  } catch (err) {
-    console.error("err.message");
-  }
-}
+//   const text = await response.text();
+//   console.log('✅ Header applied:', text);
+//   return true;
+// }
+
 
 
 export async function writeDocument(mydocumentId) {
@@ -46,18 +46,26 @@ export async function writeDocument(mydocumentId) {
         const paperData = JSON.parse(essayFile)
         
         const userLastName = paperData.usersName
-        const last = userLastName.slice(userLastName.indexOf(" "))
+        const last = userLastName.slice(userLastName.indexOf(" ")).trim()
         console.log(last)
         
         const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`
         const paperTitle = `${paperData.title}\n`
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         const paperSources = paperData.citations
+        console.log(`All essay data prepped for writing ✅`)
+        
+        // console.log('A: before header')
+        // // await applyMLAHeader(mydocumentId, last)
+        // console.log('B: after header')
+
         
         
-        await applyMLAHeader(mydocumentId, last)
+        // console.log('Header written!')
+        // // await applyMLAHeader(mydocumentId, last)
         
         // write usersname, classname etc
+        console.log(`Writing essay details...`)
         const writeDetails = await docs.documents.batchUpdate({
             documentId: mydocumentId,
             requestBody: {
@@ -74,10 +82,11 @@ export async function writeDocument(mydocumentId) {
             }
             
         })
-        
+
         let recentIndex = await getLastIndex(docs, mydocumentId)
         
         //write title & format of paper 
+        console.log(`Writing paper title`)
         const writeTitle = await docs.documents.batchUpdate({
             documentId: mydocumentId,
             requestBody: {
@@ -96,7 +105,7 @@ export async function writeDocument(mydocumentId) {
         
         const startIndexT = recentIndex -1
         const titleendIndex = startIndexT + paperTitle.length
-
+        console.log(`formatting title`)
     const centerTitle = await docs.documents.batchUpdate({
         documentId: mydocumentId,
         requestBody: {
@@ -284,8 +293,11 @@ export async function writeDocument(mydocumentId) {
         ]
     }
   })
+  console.log(`Essay written`)
 } 
 catch(err) {
-        console.error(err)
+        console.log(err)
+        throw err
     }
 }
+writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
