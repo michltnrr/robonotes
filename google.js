@@ -1,7 +1,8 @@
-import {google} from 'googleapis'
-import dotenv from 'dotenv'
+const {google} = require('googleapis')
+const dotenv = require('dotenv')
+const fs = require('fs')
+
 dotenv.config()
-import fs from 'fs'
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
 const auth = new google.auth.GoogleAuth({
@@ -13,30 +14,34 @@ const auth = new google.auth.GoogleAuth({
 async function getLastIndex(docs, mydocumentId)
 {
     const doc = await docs.documents.get({ documentId: mydocumentId });
-    return  doc.data.body.content[doc.data.body.content.length - 1].endIndex;
+    if (!doc.data.body.content || doc.data.body.content.length === 0) {
+        return 1; // Default to start of document
+    }
+    return doc.data.body.content[doc.data.body.content.length - 1].endIndex;
 }
 
-// const appScriptUrl = process.env.APP_SCRIPT_URL
 
-// async function applyMLAHeader(documentId, lastName) {
-//   const response = await fetch(appScriptUrl, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ documentId, lastName }),
-//   });
+const appScriptUrl = process.env.APP_SCRIPT_URL
 
-//   if (!response.ok) {
-//     throw new Error(`Header failed: ${response.status}`);
-//   }
+async function applyMLAHeader(documentId, lastName) {
+  const response = await fetch(appScriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ documentId, lastName }),
+  });
 
-//   const text = await response.text();
-//   console.log('✅ Header applied:', text);
-//   return true;
-// }
+  if (!response.ok) {
+    throw new Error(`Header failed: ${response.status}`);
+  }
+
+  const text = await response.text();
+  console.log('✅ Header applied:', text);
+  return true;
+}
 
 
 
-export async function writeDocument(mydocumentId) {
+async function writeDocument(mydocumentId) {
     try {
         const docs = google.docs({
             version: `v1`,
@@ -53,19 +58,11 @@ export async function writeDocument(mydocumentId) {
         const paperTitle = `${paperData.title}\n`
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         const paperSources = paperData.citations
-        console.log(`All essay data prepped for writing ✅`)
-        
-        // console.log('A: before header')
-        // // await applyMLAHeader(mydocumentId, last)
-        // console.log('B: after header')
 
-        
-        
-        // console.log('Header written!')
-        // // await applyMLAHeader(mydocumentId, last)
+        await applyMLAHeader(mydocumentId, last)
         
         // write usersname, classname etc
-        console.log(`Writing essay details...`)
+        console.log(`Writing essay details...`) 
         const writeDetails = await docs.documents.batchUpdate({
             documentId: mydocumentId,
             requestBody: {
@@ -82,11 +79,12 @@ export async function writeDocument(mydocumentId) {
             }
             
         })
+        console.log(writeDetails)
+        console.log("Details written, writing title...")
 
         let recentIndex = await getLastIndex(docs, mydocumentId)
         
         //write title & format of paper 
-        console.log(`Writing paper title`)
         const writeTitle = await docs.documents.batchUpdate({
             documentId: mydocumentId,
             requestBody: {
@@ -105,7 +103,7 @@ export async function writeDocument(mydocumentId) {
         
         const startIndexT = recentIndex -1
         const titleendIndex = startIndexT + paperTitle.length
-        console.log(`formatting title`)
+
     const centerTitle = await docs.documents.batchUpdate({
         documentId: mydocumentId,
         requestBody: {
@@ -134,14 +132,14 @@ export async function writeDocument(mydocumentId) {
     const writeEssay = await docs.documents.batchUpdate({
         documentId: mydocumentId,
         requestBody: {
-            requests: {
+            requests: [{
                 insertText: {
                     location: {
                         index: recentIndex-1,
                     },
                     text: documentText
                 }
-            }
+            }]
         }
     })
     
@@ -284,7 +282,7 @@ export async function writeDocument(mydocumentId) {
                     },
                 
                     paragraphStyle: {
-                        lineSpacing: 2 * 100
+                        lineSpacing: 200
                     },
                                 
                     fields: 'lineSpacing'
@@ -300,4 +298,5 @@ catch(err) {
         throw err
     }
 }
-writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
+// writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
+module.exports = {writeDocument}

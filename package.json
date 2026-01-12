@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@danielxceron/youtube-transcript": "^1.2.3",
-    "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "googleapis": "^164.1.0",
