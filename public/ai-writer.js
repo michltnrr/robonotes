@@ -2,6 +2,7 @@ const generateButton = document.querySelector(`#essay-link`)
 const mla = document.querySelector(`#mla-format`)
 const apa = document.querySelector(`#apa-format`)
 const disclaimer = document.querySelector(`#disclaimer`)
+const uniDepartment = document.querySelectorAll(`.affiliation-labels`)
 
 const addSource = document.querySelector(`#add-source`)
 const sourcesContainer = document.querySelector(`#sources-container`)
@@ -16,6 +17,9 @@ function specifyFormat() {
     } else if (apa.checked === true) {
         format = 'APA'
         disclaimer.hidden = false
+        uniDepartment.forEach(el => {
+            el.hidden = false
+        })
     }
     return format
 }
@@ -47,6 +51,7 @@ async function fetchEssayData(e) {
             const usersName = document.querySelector(`#users-fullname`).value;
             const className = document.querySelector(`#classname`).value;
             const guidelines = document.querySelector(`#guidelines`).value;
+            const affiliation = document.querySelector(`#affiliation`).value
 
             const sourceLinks = document.getElementsByClassName(`source-inputs`);
             const linkURLS = Array.from(sourceLinks)
@@ -66,6 +71,7 @@ async function fetchEssayData(e) {
                 guidelines,
                 format: essayFormat,
                 date,
+                affiliation,
                 sources: JSON.stringify(linkURLS)
             }).toString();
 
@@ -78,11 +84,11 @@ async function fetchEssayData(e) {
 
             const writeResponse = await fetch("/write-doc", {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                format
+            })
         })
-
-
-            // console.log('💡 /write-doc response received:', writeResponse);
 
             const writeResult = await writeResponse.json();
             console.log('✅ /write-doc result:', writeResult);

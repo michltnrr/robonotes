@@ -4,9 +4,11 @@ const path = require(`path`)
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require("openai")
-const {writeDocument} = require(`./google.js`)
+const {writeMLA} = require(`./essay/mla.js`)
+// const {writeAPA} = require("./essay/apa.js")
 const fs = require(`fs`)
 
+const ESSAY_JSON_FILE = path.join(__dirname, 'essay', 'generated-essay.json')
 const app = express()
 app.use(express.json()) 
 
@@ -64,14 +66,13 @@ app.get(`/writer/assistant`, async (req, res) => {
         const client = new OpenAI()
         const response = await client.responses.create({
             model: `gpt-4.1`,
-            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long the professor's name, writer/users name, className, date, format,essay title, and the sources must be included in the response, 
-            professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, the format is ${req.query.format} and the title and topic is ${req.query.title}, the links to the sources are ${req.query.sources}, include in text MLA style citations in the body of the essay,  
+            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long the professor's name, writer/users name, className, date, format,essay title, affiliation, and the sources must be included in the response, 
+            professor name is ${req.query.profName}, classname is ${req.query.className}, the date is ${req.query.date}, users name is${req.query.usersName}, the format is ${req.query.format} and the title and topic is ${req.query.title}, the links to the sources are ${req.query.sources}, the affiliation is ${req.query.affiliation}include in text MLA style citations in the body of the essay,  
             please return the essay in JSON format where the title, professorName, usersName, className, and format are properties on the object and so is the essays intro, body, and conclusion, lastly, create a citations property in the response which is an array of MLA citations using the sources provided in the request, all are props on the JSON object, we want the JSON to be immediately parsable not wrapped up in strings`,
         })
     
         const essayJSON = response.output_text
-        //log just for testing to know when response is done i can check dev console
-        fs.writeFileSync(`generated-essay.json`, essayJSON)
+        fs.writeFileSync(ESSAY_JSON_FILE, essayJSON)
         res.send(essayJSON)
     }
     
@@ -79,28 +80,31 @@ app.get(`/writer/assistant`, async (req, res) => {
         const client = new OpenAI()
         const response = await client.responses.create({
             model: `gpt-4.1`,
-            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long. The format is ${req.query.format} format. In your response please return a JSON object with the properties title, abstract, introduction, and format. For the rest of the properties, they'll be the names of 
-            the next sections, so add more properties called section1, section2..., the amount of sections will be based on the amount of pages. The values of the properties will be the text for it, so the abstract property will contain the abstract, the introduction will contain the intro, and so on. The last property will be the conclusion
+            input: `Your an essay writer, you need to write a college level essay. The guidelines are as follows: ${req.query.guidelines}, it must be ${req.query.pages} pages long. The title is ${req.query.title}, the professors name is ${req.query.profName}, the class name is ${req.query.className}, the writers name is ${req.query.usersName}, the date is ${req.query.date}the affiliation is ${req.query.affiliation}
+            The format is ${req.query.format} format, ALL OF THESE MUST BE PROPERTIES ON THE JSON OBJECT YOU RETURN, for the title, professor, user, and class, name the properties "title","professorName", "usersName", and "className". For the headings, make it an array of objects, the objects will have the props, title, subheading, and body, please be sure to include the subheadings. For the first object in the headings array, its title will be ${req.query.title}, it doesn't need a subheading property, its body property, will be the introduction.
+            Also create a conclusion property which is also and object with the properties title and body. Lastly we need a references property which is an array of strings with APA style references in alphabetical order formatted similar to the following source, dont include this directly, its just an example: "American Psychological Association. (2020). Publication manual of the American Psychological
+            Association (7th ed.). https://doi.org/10.1037/0000165-000", pre-formatted based on the source type. The references are ${req.query.sources}, only use these to create the references. Include apa style in text citations in the bodies of the headings, also use a mix of secondary source citations, narrative citations, "for more" citations, et.al citations, and use block quotes when needed.
             we want the JSON to be immediately parsable not wrapped up in strings`,
         })
     
         const essayJSON = response.output_text
+        fs.writeFileSync(ESSAY_JSON_FILE, essayJSON)
         res.send(essayJSON)
-        fs.writeFileSync(`generated-essay.json`, essayJSON)
     }
 })
 
-
 app.post('/write-doc', async (req, res) => {
-  // run heavy / risky work AFTER response
     try {
-        await writeDocument('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
+        if(req.body.format === 'MLA')
+            await writeMLA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
+        else 
+            // await writeAPA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
+        
         res.json({success:true})
         console.log('✅ writeDocument finished');
     } catch (err) {
         console.log('❌ writeDocument crashed:', err);
     }
-
 });
 
 app.listen(4000, () => {

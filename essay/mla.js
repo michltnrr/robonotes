@@ -1,7 +1,8 @@
 const {google} = require('googleapis')
 const dotenv = require('dotenv')
 const fs = require('fs')
-
+const {getLastIndex} = require('./utils/getIndex')
+const {applyHeader} = require('./utils/writeHeader')
 dotenv.config()
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
@@ -10,38 +11,7 @@ const auth = new google.auth.GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/documents']
 })
 
-
-async function getLastIndex(docs, mydocumentId)
-{
-    const doc = await docs.documents.get({ documentId: mydocumentId });
-    if (!doc.data.body.content || doc.data.body.content.length === 0) {
-        return 1; // Default to start of document
-    }
-    return doc.data.body.content[doc.data.body.content.length - 1].endIndex;
-}
-
-
-const appScriptUrl = process.env.APP_SCRIPT_URL
-
-async function applyMLAHeader(documentId, lastName) {
-  const response = await fetch(appScriptUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ documentId, lastName }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Header failed: ${response.status}`);
-  }
-
-  const text = await response.text();
-  console.log('✅ Header applied:', text);
-  return true;
-}
-
-
-
-async function writeDocument(mydocumentId) {
+async function writeMLA(mydocumentId) {
     try {
         const docs = google.docs({
             version: `v1`,
@@ -59,7 +29,7 @@ async function writeDocument(mydocumentId) {
         const documentText = `\t\t\n${paperData.intro} ${paperData.body} ${paperData.conclusion}`
         const paperSources = paperData.citations
 
-        await applyMLAHeader(mydocumentId, last)
+        await applyHeader(mydocumentId, last)
         
         // write usersname, classname etc
         console.log(`Writing essay details...`) 
@@ -298,5 +268,4 @@ catch(err) {
         throw err
     }
 }
-// writeDocument(`122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0`)
-module.exports = {writeDocument}
+module.exports = {writeMLA}

@@ -54,6 +54,8 @@
         <div class="date-items">
             <label for="paper-date">Date</label>
             <input type="text" id="paper-date" placeholder="August 3rd, 2025" name="data">
+            <label for="affiliation" class="affiliation-labels" hidden>Affiliation</label>
+            <input type="text" id="affiliation" placeholder="College of Engineering, Wayne State University" name="affiliation" class="affiliation-labels" hidden>
         </div>
             
 
@@ -173,6 +175,12 @@
         }
 
         #paper-date {
+            outline: none;
+            margin-right: 25px;
+        }
+
+        #affiliation {
+            width: 285px;
             outline: none;
         }
 
