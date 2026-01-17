@@ -5,8 +5,8 @@ const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require("openai")
 const {writeMLA} = require(`./essay/mla.js`)
-// const {writeAPA} = require("./essay/apa.js")
-const fs = require(`fs`)
+const {writeAPA} = require("./essay/apa.js")
+const fsPromises = require(`fs`).promises
 
 const ESSAY_JSON_FILE = path.join(__dirname, 'essay', 'generated-essay.json')
 const app = express()
@@ -72,7 +72,7 @@ app.get(`/writer/assistant`, async (req, res) => {
         })
     
         const essayJSON = response.output_text
-        fs.writeFileSync(ESSAY_JSON_FILE, essayJSON)
+        await fsPromises.writeFile(ESSAY_JSON_FILE, essayJSON)
         res.send(essayJSON)
     }
     
@@ -86,9 +86,9 @@ app.get(`/writer/assistant`, async (req, res) => {
             Association (7th ed.). https://doi.org/10.1037/0000165-000", pre-formatted based on the source type. The references are ${req.query.sources}, only use these to create the references. Include apa style in text citations in the bodies of the headings, also use a mix of secondary source citations, narrative citations, "for more" citations, et.al citations, and use block quotes when needed.
             we want the JSON to be immediately parsable not wrapped up in strings`,
         })
-    
+        
         const essayJSON = response.output_text
-        fs.writeFileSync(ESSAY_JSON_FILE, essayJSON)
+        await fsPromises.writeFile(ESSAY_JSON_FILE, essayJSON)
         res.send(essayJSON)
     }
 })
@@ -98,7 +98,7 @@ app.post('/write-doc', async (req, res) => {
         if(req.body.format === 'MLA')
             await writeMLA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
         else 
-            // await writeAPA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
+            await writeAPA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
         
         res.json({success:true})
         console.log('✅ writeDocument finished');

@@ -1,24 +1,11 @@
-// const {google} = require('googleapis')
-// const dotenv = require('dotenv')
-// const fs = require('fs')
-// const {getLastIndex} = require('./utils/getIndex')
-// dotenv.config()
-import { google } from 'googleapis'
-import dotenv from 'dotenv'
-import fs from 'fs'
-import { getLastIndex } from './utils/getIndex.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { text } from 'stream/consumers'
+const {google} = require('googleapis')
+const dotenv = require('dotenv')
+const fs = require('fs')
+const {getLastIndex} = require('./utils/getIndex')
+const path = require('path')
+const { fileURLToPath } = require('url')
+
 dotenv.config()
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-const ESSAY_PATH = path.join(__dirname, 'generated-essay.json')
-
-const essayFile = fs.readFileSync(ESSAY_PATH, 'utf8')
-const paperData = JSON.parse(essayFile)
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
 const auth = new google.auth.GoogleAuth({
@@ -27,17 +14,21 @@ const auth = new google.auth.GoogleAuth({
 })
 
 async function writeAPA(mydocumentId) {
-try {
-     const docs = google.docs({
-                version: `v1`,
-                auth
-    })
-    // console.log(paperData)
+    try {
+        const docs = google.docs({
+            version: `v1`,
+            auth
+        })
 
+    const ESSAY_PATH = path.join(__dirname, 'generated-essay.json')
+    const essayFile = fs.readFileSync(ESSAY_PATH, 'utf8')
+    const paperData = JSON.parse(essayFile)
+    
     const title = paperData.title
 
     const paperCredentials = `\n\n${paperData.usersName}\n${paperData.affiliation}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}`
     const paperHeadings = paperData.headings
+
     const writefirstPage = await docs.documents.batchUpdate({
         documentId: mydocumentId,
         requestBody: {
@@ -45,7 +36,7 @@ try {
                 {
                     insertText: {
                         location: { index: 1 },
-                        text: `${title}\n${paperCredentials}\n`
+                        text: title
                     }
                 },
                 {
@@ -58,21 +49,43 @@ try {
                         fields: "bold"
                     }
                 },
+
+                {
+                    insertText : {
+                        location: {
+                            index: 1+ title.length
+                        }, text: `\n${paperCredentials}\n`
+                    }
+                },
+
+                {
+                    updateTextStyle: {
+                        range: {
+                            startIndex: 1 + title.length+1,
+                            endIndex: 1+ title.length + 1+ paperCredentials.length
+                        },
+                        textStyle: {bold: false},
+                        fields: "bold"
+                    }
+                },
+               
                 {
                     updateParagraphStyle: {
                         range: {
                             startIndex: 1,
-                            endIndex: 1 + title.length + paperCredentials.length + 2
+                            endIndex: 1 + title.length + 1 + paperCredentials.length + 2
                         },
                         paragraphStyle: {
                             alignment: "CENTER"
                         },
                         fields: "alignment"
                     }
-                }, {
+                }, 
+                
+                {
                     insertPageBreak: {
                         location: {
-                            index: 1 + title.length + paperCredentials.length + 2
+                            index: 1 + title.length + 1 + paperCredentials.length
                         }
                     }
                 }
@@ -373,6 +386,24 @@ for(let i = 0; i < paperData.references.length; i++) {
     })
 }
 
+const doc = await docs.documents.get({ documentId: mydocumentId });
+const fullLength = doc.data.body.content.reduce((acc, elem) => acc + ((elem.endIndex || 0) - (elem.startIndex || 0)), 0);
+
+await docs.documents.batchUpdate({
+  documentId: mydocumentId,
+  requestBody: {
+    requests: [
+      {
+        updateParagraphStyle: {
+          range: { startIndex: 1, endIndex: fullLength },
+          paragraphStyle: { lineSpacing: 200 },
+          fields: "lineSpacing"
+        }
+      }
+    ]
+  }
+});
+
 
 } catch(err) {
     console.log(`Error: ${err}`)
@@ -380,5 +411,4 @@ for(let i = 0; i < paperData.references.length; i++) {
 }
 }
 
-// module.exports = {writeAPA}
-await writeAPA('122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0')
+module.exports = {writeAPA}

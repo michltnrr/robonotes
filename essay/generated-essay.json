@@ -1,32 +1,42 @@
 {
-  "title": "Debugging In Vscode: A Brief Introduction",
+  "title": "AI & Ethics In Education",
   "professorName": "Charles Xavier",
-  "usersName": "Hank Mccoy",
-  "className": "CSC 4500",
-  "date": "Jan 15, 2026",
+  "usersName": "Mike Turner",
+  "className": "CSC 5555",
+  "date": "Jan 17, 2026",
   "affiliation": "College of Engineering, Wayne State University",
   "headings": [
     {
-      "title": "Debugging In Vscode: A Brief Introduction",
-      "body": "Debugging is an essential component of modern software development, directly influencing code quality and developer productivity. Visual Studio Code (VSCode) has rapidly become a favored code editor among programmers due to its comprehensive debugging abilities, cross-platform compatibility, and rich ecosystem of extensions. This essay introduces foundational concepts and features of debugging within VSCode, situating the tool as an approachable yet powerful resource for both novice and advanced developers. By understanding VSCode’s debugging process, students and practitioners can more efficiently identify, analyze, and resolve issues within their code, ultimately fostering a deeper engagement with the software engineering lifecycle."
+      "title": "AI & Ethics In Education",
+      "body": "The integration of artificial intelligence (AI) in educational settings has sparked significant debate regarding ethical considerations, social impact, and long-term ramifications. As AI tools rapidly evolve and find their way into classrooms, educators, students, and policymakers must grapple with questions of fairness, transparency, and responsibility. These concerns are especially pressing as AI models influence grading, personalization, learning recommendations, and even the monitoring of student behavior. In this essay, I will discuss the ethical dimensions of AI in education, examining potential benefits and risks, and laying out strategies to navigate this complex landscape."
     },
     {
-      "title": "Core Debugging Features in VSCode",
-      "subheading": "The Debugger Interface and Breakpoints",
-      "body": "The core of VSCode’s debugging functionality lies in its intuitive debugger interface. According to Visual Studio Code’s documentation, 'the Run and Debug view provides a top-level overview for launching and controlling debugging sessions, setting breakpoints, and inspecting variables' (Visual Studio Code, n.d.-a, para. 2). Breakpoints let developers pause code execution at critical junctures, facilitating step-by-step program analysis. The advantages of this feature are highlighted by experts in the field, who note, 'the act of setting breakpoints and inspecting variable states at runtime is a foundational skill for efficient debugging' (Visual Studio Code, n.d.-a). Additionally, VSCode supports conditional breakpoints and logpoints, providing customization for complex scenarios. These tools, as discussed in official documentation, allow for efficient isolation of errors without disrupting workflow (Visual Studio Code, n.d.-a; Visual Studio Code, n.d.-b)."
+      "title": "The Promise and Perils of AI in Education",
+      "subheading": "Opportunities for Enhanced Learning",
+      "body": "Artificial intelligence offers substantial opportunities to enhance educational experiences. AI-driven personalization can support diverse learners by adapting content in real-time, potentially narrowing achievement gaps (Yang et al., 2020). For instance, adaptive tutoring systems leverage student data to create custom exercises and suggestions, increasing engagement and retention. As noted by Lison and Bibauw (2020), “AI has demonstrated the potential to automate complex pedagogical tasks in ways that foster both efficiency and greater inclusion” (p. 1). However, these technological advancements also present new challenges, particularly around the transparency and explainability of AI decisions."
     },
     {
-      "title": "VSCode’s Flexible Environment",
-      "subheading": "Extensions and Remote Debugging",
-      "body": "VSCode’s modular design enables a variety of language-specific extensions that enhance debugging capabilities. As stated by Visual Studio Code’s guide to browser debugging, 'installing the appropriate extension opens up the possibility for advanced breakpoints, watch expressions, and integration with language runtimes' (Visual Studio Code, n.d.-b, para. 4), giving users flexibility unmatched by many traditional IDEs. Furthermore, VSCode’s remote debugging features allow developers to connect, inspect, and resolve issues in both local and cloud environments. For more on these advanced techniques, Visual Studio Code’s browser debugging documentation provides step-by-step guidance for configuring sessions against remote processes (Visual Studio Code, n.d.-b). This extensibility is foundational for multifaceted projects and collaborative contexts, ensuring VSCode remains relevant as development paradigms evolve."
+      "title": "Ethical Concerns in AI-Driven Education",
+      "subheading": "Bias, Equity, and Accountability",
+      "body": "One of the most salient ethical concerns centers on bias embedded within AI systems. Algorithms trained on historical data may inadvertently reproduce and amplify existing social inequities. As highlighted by Yang et al. (2020), ensuring fairness requires conscious efforts at every stage of development and deployment. The authors state:\n\n    \"Machine learning-based educational applications risk perpetuating or amplifying existing social biases if not carefully assessed for fairness and evaluated against broad demographic datasets\" (Yang et al., 2020, p. 3).\n\nIn addition to bias, the question of accountability arises. When an AI system erroneously assesses student performance or misidentifies a student’s needs, pinpointing responsibility becomes complex (Lison & Bibauw, 2020). For more on the implications of decision-making by AI in education and how multilayered accountability is needed, see Yang et al. (2020)."
+    },
+    {
+      "title": "Privacy and Data Ethics",
+      "subheading": "Student Data and Consent",
+      "body": "The widespread use of AI in education necessitates the collection and processing of vast amounts of student data. Issues surrounding data privacy and informed consent are, therefore, of paramount importance. According to Lison and Bibauw (2020), strict ethical guidelines and transparent data management practices are necessary to protect student identities and ensure compliance with privacy laws. Furthermore, students and parents must be comprehensively informed about what data is collected and how it is used. Ensuring informed consent and control over educational data helps safeguard trust and aligns with ethical frameworks outlined by leading researchers (Lison & Bibauw, 2020; Yang et al., 2020)."
+    },
+    {
+      "title": "Navigating the Path Forward",
+      "subheading": "Ethical Implementation and Policy Recommendations",
+      "body": "To ethically deploy AI in educational contexts, schools and universities should establish clear policies grounded in transparency, inclusivity, and ongoing evaluation. Multi-stakeholder collaboration is essential to address evolving concerns and bridge the gap between technological possibility and responsible practice. Yang et al. (2020) argue that “effective ethical oversight mechanisms, such as advisory boards and regular audits, can support the responsible integration of AI in education.” These measures include bias auditing, user training, and the development of explainable models.\n\nUltimately, as a collective, educators and technologists must engage in continuous dialogue, ensuring that advancements in AI align with core educational values and uphold societal trust. For more on practical recommendations for responsible AI use, refer to Lison and Bibauw (2020)."
     }
   ],
   "conclusion": {
     "title": "Conclusion",
-    "body": "In summary, VSCode offers a versatile and powerful set of debugging tools, empowering developers to efficiently diagnose and resolve issues across various programming languages and environments. By leveraging its debugger interface, breakpoints, language extensions, and remote capabilities, users can elevate their approach to problem-solving within the software development process. As articulated throughout both primary documentation and related resources, mastery of these features in VSCode is a significant asset for any aspiring or practicing computer scientist."
+    "body": "The ethical implications of AI in education present both significant opportunities and daunting challenges. While these technologies can foster personalized, effective learning environments, they also raise urgent questions regarding bias, privacy, and accountability. To successfully harness AI’s potential, the educational community must prioritize robust ethical safeguards, foster transparency, and uphold student autonomy. By combining innovative technology with strong ethical frameworks, we can assist learners more equitably and responsibly in a rapidly changing digital landscape."
   },
   "references": [
-    "Visual Studio Code. (n.d.-a). Debugging in Visual Studio Code. https://code.visualstudio.com/docs/debugtest/debugging",
-    "Visual Studio Code. (n.d.-b). Debugging in the browser. https://code.visualstudio.com/docs/nodejs/browser-debugging"
+    "Lison, P., & Bibauw, S. (2020). On the use of conversational agents in computer science education: A survey. arXiv. https://arxiv.org/abs/2011.07647?utm_source=chatgpt.com",
+    "Yang, J., Heffernan, N., & Heffernan, C. (2023). Fairness in AI and learning analytics: A multidisciplinary roadmap. arXiv. https://arxiv.org/abs/2303.13379?utm_source=chatgpt.com"
   ]
 }
