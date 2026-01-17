@@ -9,7 +9,7 @@ import fs from 'fs'
 import { getLastIndex } from './utils/getIndex.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { timeLog } from 'console'
+import { text } from 'stream/consumers'
 dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
@@ -19,9 +19,6 @@ const ESSAY_PATH = path.join(__dirname, 'generated-essay.json')
 
 const essayFile = fs.readFileSync(ESSAY_PATH, 'utf8')
 const paperData = JSON.parse(essayFile)
-
-
-
 
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
 const auth = new google.auth.GoogleAuth({
@@ -149,6 +146,232 @@ try {
         ]
     }
 })
+
+for(let i = 1; i < paperHeadings.length; i++) {
+    recentIndex = await getLastIndex(docs, mydocumentId)
+    const titleText = `\n\n${paperHeadings[i].title}`
+    const titleStart = recentIndex -1 + 2
+    const titleEnd = titleStart + paperHeadings[i].title.length
+
+    const subText = `\n${paperHeadings[i].subheading}`
+    const subStart = titleEnd+1
+    const subEnd = subStart + paperHeadings[i].subheading.length
+
+    const subheadBody = `\n\t${paperHeadings[i].body}`
+    const subheadbodyStart = subEnd+1
+    const subheadbodyEnd = subheadbodyStart + paperHeadings[i].body.length
+
+    const writesubsnBods = await docs.documents.batchUpdate({
+        documentId: mydocumentId, 
+        requestBody: {
+            requests: [
+                //titles
+                {
+                    insertText: {
+                        location: {
+                            index: recentIndex-1, 
+                        }, text: titleText
+                    }
+                },
+                
+                {
+                    updateTextStyle: {
+                        range: {
+                            startIndex: titleStart,
+                            endIndex: titleEnd
+                        },
+                        textStyle: {bold: true},
+                        fields: "bold"
+                    }
+                },
+                
+                {
+                    updateParagraphStyle: {
+                        range: {
+                            startIndex: recentIndex,
+                            endIndex: recentIndex+ paperHeadings[i].title.length
+                        },
+                        paragraphStyle: {
+                            alignment: "CENTER"
+                        },
+                        fields: "alignment"
+                    }
+                }, 
+                //subheadings
+                {
+                    insertText: {
+                        location: {
+                            index: titleEnd,
+                        }, text: subText
+                    }
+                }, 
+                
+                {
+                    updateParagraphStyle: {
+                        range: {startIndex: subStart, endIndex: subEnd},
+                        paragraphStyle: {alignment: "START"},
+                        fields: "alignment"
+                    }
+                },
+                //subhead bodies
+                {
+                    insertText: {
+                        location: {
+                            index: subEnd
+                        }, text: subheadBody
+                    }
+                }, 
+                
+                {
+                    updateTextStyle: {
+                        range: {
+                            startIndex: subheadbodyStart,
+                            endIndex: subheadbodyEnd
+                        },
+                        textStyle: {bold: false},
+                        fields: "bold"
+                    }
+                }, 
+            ]
+        }
+    })
+}
+
+
+recentIndex = await getLastIndex(docs, mydocumentId)
+const conclusionTitle = `\n\n${paperData.conclusion.title}`
+const conclusionBody = `\n\t${paperData.conclusion.body}`
+
+const conclusionStart = recentIndex -1 + 2
+const conclusionEnd = conclusionStart+ paperData.conclusion.title.length
+
+const conclusionbodyStart = recentIndex -1 + conclusionTitle.length
+const conclusionbodyEnd = conclusionbodyStart + conclusionBody.length
+
+const writeconclusion = await docs.documents.batchUpdate({
+    documentId: mydocumentId,
+    requestBody: {
+        requests:
+        [ 
+            {
+            insertText: {
+                location: {
+                    index: recentIndex-1,
+                }, text: conclusionTitle
+            }
+        },
+
+        {
+            updateTextStyle: {
+                range: {
+                    startIndex: conclusionStart,
+                    endIndex: conclusionEnd
+                },
+                textStyle: {bold: true},
+                fields: "bold"
+            }
+        },
+    
+        {
+            insertText: {
+                location: {
+                    index: recentIndex-1 + conclusionTitle.length,
+                }, text: conclusionBody
+            }
+        },
+
+        {
+            updateTextStyle: {
+                range: {
+                    startIndex: conclusionbodyStart,
+                    endIndex: conclusionbodyEnd
+                },
+                textStyle: {bold: false},
+                fields: "bold"
+            }
+        },
+
+        {
+            insertPageBreak: {
+                location: {
+                    index: conclusionbodyEnd
+                }
+            }
+        }, 
+      ]
+    }
+})
+
+recentIndex = await getLastIndex(docs, mydocumentId)
+const writereferencesPage = await docs.documents.batchUpdate({
+    documentId: mydocumentId,
+    requestBody: {
+        requests: [
+            {
+                insertText: {
+                    location: {
+                        index: recentIndex-1,
+                    }, text: "References"
+                }
+            },
+
+            {
+                updateTextStyle: {
+                    range: {
+                        startIndex: recentIndex-1,
+                        endIndex: recentIndex -1 + "References".length
+                    },
+                    textStyle: {bold: true},
+                    fields: "bold"
+                }
+            }, 
+
+            {
+                updateParagraphStyle: {
+                    range: {
+                        startIndex: recentIndex-1,
+                        endIndex: recentIndex-1 + "References".length
+                    },
+                    paragraphStyle: {
+                        alignment: "CENTER"
+                    },
+                    fields: "alignment"
+                }
+            }
+        ]
+    }
+})
+
+recentIndex = await getLastIndex(docs, mydocumentId)
+for(let i = 0; i < paperData.references.length; i++) {
+    const reference = `\n${paperData.references[i]}\n`
+    const end = recentIndex-1 + reference.length
+    await docs.documents.batchUpdate({
+        documentId: mydocumentId,
+        requestBody: {
+            requests: [
+                {
+                    insertText: {
+                        location: {
+                            index: recentIndex-1
+                        }, text: reference
+                    }
+                }, 
+
+                {
+                    updateTextStyle: {
+                        range: {
+                            startIndex: recentIndex-1,
+                            endIndex: end
+                        },
+                        textStyle: {bold: false},
+                        fields: "bold"
+                    }
+                }
+            ]
+        }
+    })
+}
 
 
 } catch(err) {
