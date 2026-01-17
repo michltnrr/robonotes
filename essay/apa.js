@@ -402,8 +402,7 @@ await docs.documents.batchUpdate({
       }
     ]
   }
-});
-
+})
 
 } catch(err) {
     console.log(`Error: ${err}`)

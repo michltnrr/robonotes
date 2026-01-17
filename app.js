@@ -50,6 +50,12 @@ app.get(`/api/summary`, async (req, res) => {
     })
 })
 
+app.get(`/study`, (req, res) => {
+    res.render(`study`, {
+        name: `Mike Turner`
+    })
+})
+
 app.get(`/assistant`, (req, res) => {
     res.render(`assistant`, {
         name: `Mike Turner`
