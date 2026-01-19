@@ -6,121 +6,6 @@
     <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-</head>
-<body>
-    {{>header}}
-
-    <div class="main-content">
-        <h1 id="greeting">Welcome to your study hub</h1>
-        <p class="subtitle">Generate summaries, quizzes, and study materials instantly</p>
-
-        <!-- Centered input container -->
-        <div class="input-container">
-            <div class="input-wrapper">
-                <textarea 
-                    class="main-input" 
-                    id="mainInput"
-                    placeholder="Paste a video URL or describe your quiz requirements..."
-                    rows="1"
-                ></textarea>
-                <div class="input-footer">
-                    <div class="mode-selector">
-                        <button class="mode-btn active" data-mode="video">📹 Video Summary</button>
-                        <button class="mode-btn" data-mode="quiz">📝 Quiz Generator</button>
-                    </div>
-                    <button class="submit-btn" id="submitBtn">↑</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Suggestions -->
-        <div class="suggestions" id="suggestions">
-            <div class="suggestion-card" data-prompt="Summarize this YouTube video: ">
-                <div class="suggestion-title">Summarize Video</div>
-                <div class="suggestion-desc">Get key points from any educational video</div>
-            </div>
-            <div class="suggestion-card" data-prompt="Generate a 10-question quiz on ">
-                <div class="suggestion-title">Create Quiz</div>
-                <div class="suggestion-desc">Multiple choice questions on any topic</div>
-            </div>
-            <div class="suggestion-card" data-prompt="Generate study notes from: ">
-                <div class="suggestion-title">Study Notes</div>
-                <div class="suggestion-desc">Organized notes from video content</div>
-            </div>
-        </div>
-
-        <!-- Output -->
-        <div class="output-section" id="outputSection">
-            <div class="output-content" id="outputContent" contenteditable="true"></div>
-        </div>
-    </div>
-
-    {{>footer}}
-
-    <script>
-        const input = document.getElementById('mainInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const modeBtns = document.querySelectorAll('.mode-btn');
-        const outputSection = document.getElementById('outputSection');
-        const outputContent = document.getElementById('outputContent');
-        const suggestions = document.getElementById('suggestions');
-        const suggestionCards = document.querySelectorAll('.suggestion-card');
-
-        let currentMode = 'video';
-
-        // Auto-resize textarea
-        input.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
-
-        // Mode switching
-        modeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                modeBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentMode = this.dataset.mode;
-                
-                if (currentMode === 'video') {
-                    input.placeholder = 'Paste a video URL or describe your quiz requirements...';
-                } else {
-                    input.placeholder = 'Describe your quiz (e.g., "10 questions on photosynthesis")...';
-                }
-            });
-        });
-
-        // Suggestion cards
-        suggestionCards.forEach(card => {
-            card.addEventListener('click', function() {
-                input.value = this.dataset.prompt;
-                input.focus();
-                suggestions.style.display = 'none';
-            });
-        });
-
-        // Submit functionality
-        submitBtn.addEventListener('click', generate);
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generate();
-            }
-        });
-
-        function generate() {
-            if (!input.value.trim()) return;
-            
-            suggestions.style.display = 'none';
-            outputSection.classList.add('active');
-            outputContent.textContent = 'Generating...';
-            
-            // Placeholder for actual generation
-            setTimeout(() => {
-                outputContent.textContent = `Generated ${currentMode} content for: ${input.value}`;
-            }, 1000);
-        }
-    </script>
-
     <style>
         body {
             background-color: #000000;
@@ -128,14 +13,13 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        /* Keep the header untouched */
-        /* main content centered */
+        /* Main content centered */
         .main-content {
             display: flex;
             flex-direction: column;
-            align-items: center; /* horizontal center */
+            align-items: center;
             text-align: center;
-            margin-top: 40px; /* space below header */
+            margin-top: 40px;
         }
 
         #greeting {
@@ -155,7 +39,6 @@
             margin-bottom: 24px;
         }
 
-        /* Center input container */
         .input-container {
             width: 100%;
             max-width: 800px;
@@ -169,14 +52,13 @@
             border: 1px solid #2a2a2a;
             border-radius: 28px;
             padding: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
             width: 100%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
         }
 
         .input-wrapper:focus-within {
             border-color: #2da8d2;
-            box-shadow: 0 4px 32px rgba(45, 168, 210, 0.15);
+            box-shadow: 0 4px 32px rgba(45,168,210,0.15);
         }
 
         .main-input {
@@ -221,16 +103,8 @@
             font-weight: 500;
         }
 
-        .mode-btn:hover {
-            background: #2d2d2d;
-            color: #aaa;
-        }
-
-        .mode-btn.active {
-            background: #2da8d2;
-            border-color: #2da8d2;
-            color: #fff;
-        }
+        .mode-btn:hover { background: #2d2d2d; color: #aaa; }
+        .mode-btn.active { background: #2da8d2; border-color: #2da8d2; color: #fff; }
 
         .submit-btn {
             background: #2da8d2;
@@ -247,25 +121,19 @@
             font-size: 1.2rem;
         }
 
-        .submit-btn:hover {
-            background: #2190b0;
-            transform: scale(1.05);
-        }
-
-        .submit-btn:active {
-            transform: scale(0.95);
-        }
+        .submit-btn:hover { background: #2190b0; transform: scale(1.05); }
+        .submit-btn:active { transform: scale(0.95); }
 
         .output-section {
             width: 100%;
             max-width: 800px;
             margin-top: 40px;
             display: none;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .output-section.active {
-            display: block;
-        }
+        .output-section.active { display: flex; }
 
         .output-content {
             background: #141414;
@@ -277,64 +145,120 @@
             line-height: 1.7;
             font-size: 1rem;
             white-space: pre-wrap;
+            width: 100%;
+            max-width: 600px;
         }
 
-        .output-content:focus {
-            outline: none;
-            border-color: #2da8d2;
-        }
+        .output-content:focus { outline: none; border-color: #d55193; }
 
         .output-content:empty:before {
             content: 'Generated content will appear here...';
             color: #555;
         }
 
-        .suggestions {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
+        /* Quiz container */
+        .quiz-container {
             width: 100%;
-            max-width: 800px;
-            margin-top: 24px;
+            max-width: 600px;
+            margin: 16px auto 0 auto;
+            background-color: #1a1a1a;
+            border: 1px solid #252525;
+            border-radius: 12px;
+            padding: 16px;
         }
 
-        .suggestion-card {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 18px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .suggestion-card:hover {
-            background: #202020;
-            border-color: #333;
-            transform: translateY(-2px);
-        }
-
-        .suggestion-title {
+        .quiz-question {
+            margin: 0 0 12px 0;
             font-weight: 500;
-            margin-bottom: 6px;
-            color: #e8e8e8;
             font-size: 0.95rem;
+            text-align: left;
+            color: #e8e8e8;
         }
 
-        .suggestion-desc {
-            font-size: 0.85rem;
-            color: #888;
-            line-height: 1.4;
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-size: 0.9rem;
+            background-color: rgba(255, 255, 255, 0.03);
         }
+
+        .quiz-option:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+        .quiz-option input[type="radio"] { cursor: pointer; }
+
+        .quiz-option label { cursor: pointer; font-family: 'Roboto', sans-serif; }
 
         @media (max-width: 768px) {
-            .suggestions {
-                flex-direction: column;
-            }
-            
-            .mode-selector {
-                flex-wrap: wrap;
-            }
+            .mode-selector { flex-wrap: wrap; }
+            .output-content, .quiz-container { max-width: 100%; }
         }
     </style>
+</head>
+<body>
+    {{>header}}
+
+    <div class="main-content">
+        <h1 id="greeting">Welcome to your study hub</h1>
+        <p class="subtitle">Generate descriptive visualizations, quizzes, and summaries instantly</p>
+
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    class="main-input" 
+                    id="mainInput"
+                    placeholder="Visualize the mechanics of hydrostatic force..."
+                    rows="1"
+                ></textarea>
+                <div class="input-footer">
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="video">📹 Video Generator</button>
+                        <button class="mode-btn" data-mode="quiz">📚 Quiz Generator</button>
+                        <button class="mode-btn" data-mode="summary">✍🏼 Summary Generator</button>
+                    </div>
+                    <button class="submit-btn" id="submitBtn">↑</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="output-section" id="outputSection">
+            <div class="output-content" id="outputContent" contenteditable="true"></div>
+
+            <!-- Quiz container -->
+            <div class="quiz-container" id="quizContainer" hidden>
+                <form class="quiz-contents">
+                    <p class="quiz-question">1. Which of the following is used to declare a variable in JavaScript?</p>
+
+                    <div class="quiz-option">
+                        <input type="radio" name="question1" id="q1-a">
+                        <label for="q1-a">A. var</label>
+                    </div>
+
+                    <div class="quiz-option">
+                        <input type="radio" name="question1" id="q1-b">
+                        <label for="q1-b">B. let</label>
+                    </div>
+
+                    <div class="quiz-option">
+                        <input type="radio" name="question1" id="q1-c">
+                        <label for="q1-c">C. const</label>
+                    </div>
+
+                    <div class="quiz-option">
+                        <input type="radio" name="question1" id="q1-d">
+                        <label for="q1-d">D. all of the above</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{>footer}}
+
+    <script src="../study.js"></script>
 </body>
 </html>
