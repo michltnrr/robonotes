@@ -6,6 +6,7 @@ const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require("openai")
 const {writeMLA} = require(`./essay/mla.js`)
 const {writeAPA} = require("./essay/apa.js")
+const {createQuiz} = require(`./public/quiz.js`)
 const fsPromises = require(`fs`).promises
 
 const ESSAY_JSON_FILE = path.join(__dirname, 'essay', 'generated-essay.json')
@@ -54,6 +55,28 @@ app.get(`/study`, (req, res) => {
     res.render(`study`, {
         name: `Mike Turner`
     })
+})
+
+app.post(`/study/generate`, async (req, res) => {
+    const {mode, prompt} = req.body
+
+    if(!mode || !prompt) {
+        return res.status(400).json({error: "Missing mode or prompt"})
+    }
+    try {
+        if(mode === 'quiz') {
+            const quizJSON = await createQuiz(prompt)
+            return res.json({data: quizJSON})
+        }
+
+        return res.json({
+            data: "Generated content here"
+        })
+    } catch(err) {
+        return res.status(500).json({
+            error: "Failed to generate content"
+        })
+    }
 })
 
 app.get(`/assistant`, (req, res) => {

@@ -2,14 +2,18 @@ import OpenAI from "openai";
 import 'dotenv/config'
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY})
 
-async function createQuiz(prompt) {
+export async function createQuiz(prompt) {
     const res = await client.responses.create({
         model: "gpt-4.1",
         input: `${prompt}
         
         Your response should be a JSON object that represents a multiple choice quiz, with the specified number of questions, pls return the JSON in the given example structure, dont the exact
         hard coded values, these are simply to exemplify the required structure 
-
+        
+        Return ONLY valid JSON.
+        Do not include explanations, markdown, or extra text.
+        The response MUST be directly parsable by JSON.parse().
+        
         example structure:
 
         \`\`\`
@@ -33,11 +37,8 @@ async function createQuiz(prompt) {
 }
 \`\`\`
 `
-  });
-  return res
+})
+
+  const quizObj = res.output_text
+  return JSON.parse(quizObj)
 }
-async function main() {
-    const quiz = await createQuiz('Generate a 10 question quiz on javascrript')
-    console.log(quiz.output_text)
-}
-main()
