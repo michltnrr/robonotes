@@ -186,7 +186,35 @@ function renderQuiz(quizData) {
     quizSubmit.remove()
     quizContainer.insertBefore(scoreDisplay, quizContainer.firstChild)
 })
-     
+}
+
+function renderVideo(videoSrc) {
+    // Ensure output section is visible
+    outputSection.classList.add('active')
+
+    // Clear previous output
+    outputContent.innerHTML = ''
+
+    // Outer gradient border
+    const videoBorder = document.createElement('div')
+    videoBorder.className = 'video-border'
+
+    // Inner container
+    const videoContainer = document.createElement('div')
+    videoContainer.className = 'video-container'
+
+    // Video element
+    const video = document.createElement('video')
+    video.src = videoSrc || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'
+    video.width = 575
+    video.controls = true
+    video.playsInline = true
+
+    // Build hierarchy
+    videoContainer.appendChild(video)
+    videoBorder.appendChild(videoContainer)
+    outputContent.appendChild(videoBorder)
+   
 }
 
 
@@ -217,17 +245,26 @@ async function generate() {
     if(currentMode === 'quiz') {
         outputSection.classList.remove('active')
         renderQuiz(response.data)
-    } else {
+    } 
+
+    else if(currentMode === 'video') {
+        console.log("video generatated successfully!")
+        renderVideo(response.videoPath)
+    }
+    
+    
+    else {
         outputSection.classList.add('active')
         outputContent.textContent = response.data
     }
 }
 
 submitBtn.addEventListener('click', generate);
+
 input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         console.log('Generation started')
         e.preventDefault();
         generate();
     }
-});
+})

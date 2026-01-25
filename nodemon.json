@@ -1,5 +1,6 @@
 {
   "ignore": [
-    "generated-essay.json"
+    "generated-essay.json",
+    "video_scene.py"
   ]
 }

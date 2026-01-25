@@ -3,15 +3,20 @@ const hbs = require(`hbs`)
 const path = require(`path`)
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
-const { default: OpenAI } = require("openai")
+const { default: OpenAI } = require(`openai`)
+const spawn = require(`child_process`).spawn
+
 const {writeMLA} = require(`./essay/mla.js`)
-const {writeAPA} = require("./essay/apa.js")
+const {writeAPA} = require(`./essay/apa.js`)
 const {createQuiz} = require(`./public/quiz.js`)
+const {prepVideo, getsceneName} = require(`./public/video.js`)
 const fsPromises = require(`fs`).promises
 
 const ESSAY_JSON_FILE = path.join(__dirname, 'essay', 'generated-essay.json')
 const app = express()
 app.use(express.json()) 
+app.use('/media', express.static(path.join(__dirname, 'media')));
+
 
 const viewsPath = path.join(__dirname, `/views`)
 const partialsPath = path.join(__dirname, `/views/partials`)
@@ -69,10 +74,63 @@ app.post(`/study/generate`, async (req, res) => {
             return res.json({data: quizJSON})
         }
 
+        if(mode === 'video') {
+            const videoCode = await prepVideo(prompt)
+            
+            let patchedCode = videoCode
+                // 1. Fix double/triple .animate chaining
+                .replace(/\.animate((?:\.[a-zA-Z_]+\([^)]*\))+)\.animate/g, '.animate$1')
+                
+                // 2. Fix trailing .animate with no methods
+                .replace(/(\w+)\.animate\.animate\b/g, '$1.animate')
+                
+                // 3. Fix method().animate pattern (should be animate.method())
+                .replace(/(\w+)\.((?:shift|scale|rotate|move_to|next_to|to_edge|to_corner|set_color|set_opacity)\([^)]*\))\.animate/g, '$1.animate.$2')
+                
+                // 4. Fix Brace.get_text / get_tex
+                .replace(/Brace\.get_(text|tex)\(([^)]*?)\)/g, (match, braceType, braceArgs) => {
+                    return `Brace.get_${braceType}(${braceArgs.replace(/,\s*font_size\s*=\s*\d+/, '')})`;
+                })
+                
+                // 5. Fix SurroundingRectangle unsafe indexing
+                .replace(/SurroundingRectangle\(([^)\[\]]+)\[\d+\](.*?)\)/g, 'SurroundingRectangle($1$2)');
+
+            const manimfilePath = path.join(__dirname, 'video_scene.py')
+            await fsPromises.writeFile(manimfilePath, patchedCode, 'utf8')
+
+            const sceneName = getsceneName(videoCode)
+            console.log(sceneName)
+
+            const mainmProcess = spawn(`python3`, [`-m`, `manim`, manimfilePath, sceneName, `-qh`])
+
+            let output = '';
+            mainmProcess.stdout.on('data', data => {output += data.toString();});
+            mainmProcess.stderr.on('data', data => {output += data.toString();});
+
+
+            await new Promise((resolve, reject) => {
+                mainmProcess.on('close', code => {
+                    if (code !== 0) {
+                        console.error(output)
+                        reject(new Error(output))
+                    }
+                    else {
+                        resolve();
+                    }
+                });
+            });
+            // 5️⃣ Return video path
+            const videoPath = `/media/videos/video_scene/1080p60/${sceneName}.mp4`;
+            console.log(videoPath)
+
+            return res.json({ videoPath });
+        }
+
         return res.json({
             data: "Generated content here"
         })
     } catch(err) {
+        console.log(err)
         return res.status(500).json({
             error: "Failed to generate content"
         })
