@@ -4,8 +4,9 @@ const modeBtns = document.querySelectorAll('.mode-btn');
 const outputSection = document.getElementById('outputSection');
 const outputContent = document.getElementById('outputContent');
 const quizContainer = document.getElementById('quizContainer');
+let quizSubmit;
 
-let currentMode = 'video';
+let currentMode = 'video'
 
 // Auto-resize textarea
 input.addEventListener('input', function() {
@@ -31,8 +32,10 @@ modeBtns.forEach(btn => {
 
 function renderQuiz(quizData) {
     const quizContainer = document.getElementById('quizContainer');
+    const quizSection = document.getElementById('quizSection');
 
-    quizContainer.hidden = false;
+    quizSection.classList.add('active');  // Show the quiz section
+    quizContainer.className = 'quiz-container';  // Add the styling class
     quizContainer.innerHTML = '';
 
     const title = document.createElement('h2');
@@ -66,10 +69,125 @@ function renderQuiz(quizData) {
             form.appendChild(optionDiv);
         });
 
+        quizSubmit = document.createElement('button')
+        quizSubmit.style.backgroundColor = '#f84a64'
+        quizSubmit.style.padding = '10px'
+        quizSubmit.style.width = '100px'
+        quizSubmit.style.borderRadius = '20px'
+        quizSubmit.textContent = 'Submit'
+        quizSubmit.style.fontSize = '17px'
+        quizSubmit.style.color = 'white'
+        quizSubmit.style.border = 'none'
+
         quizContainer.appendChild(form);
     });
-}
+    quizContainer.appendChild(quizSubmit)
+    
+    quizSubmit.addEventListener('mouseenter', () => {
+        quizSubmit.style.color = 'black'
+    })
+    quizSubmit.addEventListener('mouseleave', () => {
+        quizSubmit.style.color = 'white'
+    })
+    quizSubmit.addEventListener('click', () => {
+    let score = 0;
+    quizData.questions.forEach((q) => {
+        let choice = document.querySelector(`input[name=question${q.id}]:checked`)
+        if(!choice) return
+        
+        let answerDiv = choice.closest(`.quiz-option`)
+        let selected = choice.id.split(`-`)[1]
+        let form = choice.closest('form')
+        
+        // Find the correct answer option
+        let correctChoice = document.querySelector(`#q${q.id}-${q.correctAnswer}`)
+        let correctDiv = correctChoice.closest('.quiz-option')
 
+        if(selected === q.correctAnswer) {
+            score++;
+            // Style correct answer
+            answerDiv.style.backgroundColor = 'rgba(74, 222, 128, 0.2)'
+            answerDiv.style.border = '2px solid #4ade80'
+            answerDiv.style.borderRadius = '8px'
+        } else {
+            // Style incorrect answer
+            answerDiv.style.backgroundColor = 'rgba(248, 74, 100, 0.2)'
+            answerDiv.style.border = '2px solid #f84a64'
+            answerDiv.style.borderRadius = '8px'
+            answerDiv.style.opacity = '0.7'
+            
+            // Highlight the correct answer
+            correctDiv.style.backgroundColor = 'rgba(74, 222, 128, 0.2)'
+            correctDiv.style.border = '2px solid #4ade80'
+            correctDiv.style.borderRadius = '8px'
+        }
+        
+        // Disable all options for this question
+        let allInputs = form.querySelectorAll('input[type="radio"]')
+        allInputs.forEach(input => input.disabled = true)
+    })
+    
+    // Display score
+    const scoreDisplay = document.createElement('div')
+    scoreDisplay.style.textAlign = 'center'
+    scoreDisplay.style.margin = '24px 0'
+    scoreDisplay.style.padding = '20px'
+    scoreDisplay.style.background = '#1a1a1a'
+    scoreDisplay.style.border = '1px solid #252525'
+    scoreDisplay.style.borderRadius = '12px'
+    scoreDisplay.style.fontSize = '1.2rem'
+    
+    const scoreNumber = document.createElement('div')
+    scoreNumber.style.fontSize = '2rem'
+    scoreNumber.style.fontWeight = '700'
+    scoreNumber.style.background = 'linear-gradient(to right, #4ade80, #2da8d2)'
+    scoreNumber.style.webkitBackgroundClip = 'text'
+    scoreNumber.style.backgroundClip = 'text'
+    scoreNumber.style.color = 'transparent'
+    scoreNumber.style.margin = '8px 0'
+    scoreNumber.textContent = `${score} / ${quizData.questions.length}`
+    
+    const percentage = document.createElement('div')
+    percentage.style.color = '#888'
+    percentage.style.fontSize = '0.9rem'
+    percentage.style.marginTop = '8px'
+    percentage.textContent = `${Math.round((score / quizData.questions.length) * 100)}% correct`
+    
+    scoreDisplay.appendChild(document.createTextNode('Your Score'))
+    scoreDisplay.appendChild(scoreNumber)
+    scoreDisplay.appendChild(percentage)
+    
+    // Create clear button
+    const clearBtn = document.createElement('button')
+    clearBtn.style.background = '#333'
+    clearBtn.style.border = '1px solid #444'
+    clearBtn.style.color = '#fff'
+    clearBtn.style.padding = '10px 30px'
+    clearBtn.style.borderRadius = '20px'
+    clearBtn.style.fontSize = '16px'
+    clearBtn.style.cursor = 'pointer'
+    clearBtn.style.marginTop = '16px'
+    clearBtn.textContent = 'Clear Quiz'
+    
+    clearBtn.addEventListener('mouseenter', () => {
+        clearBtn.style.background = '#444'
+    })
+    clearBtn.addEventListener('mouseleave', () => {
+        clearBtn.style.background = '#333'
+    })
+    clearBtn.addEventListener('click', () => {
+        const quizSection = document.getElementById('quizSection')
+        quizSection.classList.remove('active')
+    })
+    
+    scoreDisplay.appendChild(clearBtn)
+    
+    // Remove submit button and add score display
+    quizSubmit.remove()
+    quizContainer.insertBefore(scoreDisplay, quizContainer.firstChild)
+})
+     
+}
 
 
 //submit

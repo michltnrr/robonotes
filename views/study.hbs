@@ -20,6 +20,7 @@
             align-items: center;
             text-align: center;
             margin-top: 40px;
+            padding-bottom: 60px;
         }
 
         #greeting {
@@ -156,17 +157,29 @@
             color: #555;
         }
 
-        /* Quiz container */
+        /* Quiz container - now separate from input */
+        .quiz-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 32px;
+            display: none;
+        }
+
+        .quiz-section.active {
+            display: block;
+        }
+
         .quiz-container {
             width: 100%;
             max-width: 600px;
-            margin: 16px auto 0 auto;
+            margin: 0 auto;
             background-color: #1a1a1a;
             border: 1px solid #252525;
             border-radius: 12px;
-            padding: 16px;
+            padding: 24px;
         }
-        .quiz-container from {
+
+        .quiz-container form {
             margin-bottom: 20px;
         }
 
@@ -188,6 +201,7 @@
             transition: background-color 0.2s ease;
             font-size: 0.9rem;
             background-color: rgba(255, 255, 255, 0.03);
+            margin-bottom: 8px;
         }
 
         .quiz-option:hover { background-color: rgba(255, 255, 255, 0.08); }
@@ -225,8 +239,16 @@
                     </div>
                     <button class="submit-btn" id="submitBtn">↑</button>
                 </div>
-            <!-- Quiz container -->
-            <div class="quiz-container" id="quizContainer" hidden>
+            </div>
+        </div>
+
+        <div class="output-section" id="outputSection">
+            <div class="output-content" id="outputContent" contenteditable="true"></div>
+        </div>
+
+        <!-- Quiz container - now in its own section -->
+        <div class="quiz-section" id="quizSection">
+            <div class="quiz-container" id="quizContainer">
                 <form class="quiz-contents">
                     <p class="quiz-question">1. Which of the following is used to declare a variable in JavaScript?</p>
 
@@ -251,12 +273,6 @@
                     </div>
                 </form>
             </div>
-            </div>
-        </div>
-
-        <div class="output-section" id="outputSection">
-            <div class="output-content" id="outputContent" contenteditable="true"></div>
-
         </div>
     </div>
 
