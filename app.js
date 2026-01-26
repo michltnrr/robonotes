@@ -126,6 +126,15 @@ app.post(`/study/generate`, async (req, res) => {
             return res.json({ videoPath });
         }
 
+        if(mode === 'summary') {
+            const videoID = prompt.slice(prompt.indexOf(`=`)+1)
+            const transcript = await getTranscript(videoID)
+            const response = await main(transcript)
+
+            return res.json({response})
+    
+        }
+
         return res.json({
             data: "Generated content here"
         })

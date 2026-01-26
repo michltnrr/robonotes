@@ -4,6 +4,10 @@ const modeBtns = document.querySelectorAll('.mode-btn');
 const outputSection = document.getElementById('outputSection');
 const outputContent = document.getElementById('outputContent');
 const quizContainer = document.getElementById('quizContainer');
+let copyclearDiv = document.querySelector(`.output-actions`)
+
+let copyButton = document.getElementById('clipboard')
+let clearButton = document.getElementById('clear')
 let quizSubmit;
 
 let currentMode = 'video'
@@ -29,6 +33,35 @@ modeBtns.forEach(btn => {
         }
     });
 });
+
+copyButton.addEventListener('click', () => {
+    const text = outputContent.textContent
+    navigator.clipboard.writeText(text)
+})
+
+copyButton.addEventListener('mouseenter', () => {
+    copyButton.style.color = 'black'
+})
+
+copyButton.addEventListener('mouseleave', () => {
+    copyButton.style.color = 'white'
+})
+
+clearButton.addEventListener('click', () => {
+    outputContent.textContent = ''
+    outputSection.classList.remove('active')
+    
+    copyButton.hidden = true
+    clearButton.hidden = true
+})
+
+clearButton.addEventListener('mouseenter', () => {
+    clearButton.style.color = 'black'
+})
+
+clearButton.addEventListener('mouseleave', () => {
+    clearButton.style.color = 'white'
+})
 
 function renderQuiz(quizData) {
     const quizContainer = document.getElementById('quizContainer');
@@ -251,8 +284,38 @@ async function generate() {
         console.log("video generatated successfully!")
         renderVideo(response.videoPath)
     }
-    
-    
+
+    else if (currentMode === 'summary') {
+        console.log(response)
+        outputSection.classList.add('active')
+        outputContent.textContent = response.response
+
+        copyButton.style.border = 'none'
+        copyButton.style.borderRadius = '20px'
+        copyButton.style.font = 'Roboto'
+        copyButton.style.fontSize = 'medium'
+        copyButton.style.width = '70px'
+        copyButton.style.height = '30px'
+        copyButton.style.marginLeft = '100px'
+        copyButton.style.marginRight = '135px'
+        copyButton.style.marginTop = '20px'
+        copyButton.style.color = 'white'
+        copyButton.style.background =  `linear-gradient(to right, rgb(217, 59, 85), rgb(255, 47, 0))`
+        
+        clearButton.style.border = 'none'
+        clearButton.style.borderRadius = '20px'
+        clearButton.style.font = 'Roboto'
+        clearButton.style.fontSize = 'medium'
+        clearButton.style.width = '70px'
+        clearButton.style.height = '30px'
+        clearButton.style.marginRight = '135px'
+        clearButton.style.marginTop = '20px'
+        clearButton.style.color = 'white'
+        clearButton.style.background = 'rgb(45, 168, 210)'
+
+        copyButton.hidden = false
+        clearButton.hidden = false
+    }
     else {
         outputSection.classList.add('active')
         outputContent.textContent = response.data

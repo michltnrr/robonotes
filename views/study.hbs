@@ -157,6 +157,14 @@
             color: #555;
         }
 
+        .output-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+
         /* Quiz container - now separate from input */
         .quiz-section {
             width: 100%;
@@ -245,9 +253,15 @@
                 </div>
             </div>
         </div>
-
+        
+        {{!-- output container --}}
         <div class="output-section" id="outputSection">
             <div class="output-content" id="outputContent" contenteditable="true"></div>
+
+            <div class="output-actions">
+                <button id="clipboard" hidden>Copy</button>
+                <button id="clear" hidden>Clear</button>
+            </div>
         </div>
 
         <!-- Quiz container - now in its own section -->
