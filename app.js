@@ -40,21 +40,6 @@ app.get(`/summary`, (req, res) => {
 
 })
 
-//route for api summaries
-app.get(`/api/summary`, async (req, res) => {
-    if(!req.query.url) {
-        return res.send(`Please provide a url for the video`)
-    }
-
-    const videoID = req.query.url.slice(req.query.url.indexOf(`=`)+1)
-    const transcript = await getTranscript(videoID)
-    const response = await main(transcript)
-    
-    res.send({
-        summarization: response,
-        name: `Mike Turner`
-    })
-})
 
 app.get(`/study`, (req, res) => {
     res.render(`study`, {
