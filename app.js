@@ -1,6 +1,10 @@
 const express = require(`express`)
 const hbs = require(`hbs`)
 const path = require(`path`)
+require(`./db/mongoose.js`)
+const userRouter = require(`./routers/user`)
+
+
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
 const { default: OpenAI } = require(`openai`)
@@ -23,6 +27,9 @@ const partialsPath = path.join(__dirname, `/views/partials`)
 const publicPath = path.join(__dirname, '/public')
 
 app.use(express.static(publicPath))
+app.use(userRouter)
+
+
 app.set(`view engine`, `hbs`)
 app.set(`views`, viewsPath)
 hbs.registerPartials(partialsPath)
