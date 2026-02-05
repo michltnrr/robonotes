@@ -12,7 +12,7 @@ const noteSchema = new mongoose.Schema({
         required: true,
     },
 
-    owner: {
+    course: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Course'

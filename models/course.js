@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
 courseSchema.virtual('notes', {
     ref: 'Note',
     localField:'_id',
-    foreignField: 'owner'
+    foreignField: 'course'
 })
 
 const Course = mongoose.model('Course', courseSchema)

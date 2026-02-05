@@ -53,4 +53,20 @@ router.post(`/users/logoutall`, auth, async (req, res) => {
         res.status(500).send()
     }
 })
+
+//read profile
+router.get(`/users/me`, auth, async (req, res) => {
+    try {
+        /* remember req.user is created in the auth file, the middleware lets us add custom props to req*/
+        const user = req.user
+        
+        if(!user) {
+            throw new Error("User doesn't exist")
+        }
+        
+        res.status(201).send({user})
+    } catch(err) {
+        res.status(400).send(`Error: ${err}`)
+    }
+})
 module.exports = router

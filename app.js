@@ -3,6 +3,8 @@ const hbs = require(`hbs`)
 const path = require(`path`)
 require(`./db/mongoose.js`)
 const userRouter = require(`./routers/user`)
+const courseRouter = require(`./routers/course`)
+const noteRouter = require(`./routers/note`)
 
 
 const {getTranscript} = require(`./public/youtube.js`)
@@ -28,6 +30,8 @@ const publicPath = path.join(__dirname, '/public')
 
 app.use(express.static(publicPath))
 app.use(userRouter)
+app.use(courseRouter)
+app.use(noteRouter)
 
 
 app.set(`view engine`, `hbs`)
