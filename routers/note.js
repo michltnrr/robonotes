@@ -6,9 +6,9 @@ const router = new express.Router()
 //create note
 router.post(`/courses/:courseId/notes`, auth, async (req, res) => {
     try {
-        //THIS NEEDS TO EDITIED TO BE MORE SPECIFIC LATER
         const note = await Note.create({
-            ...req.body
+            ...req.body,
+            course: req.params.courseId
         })
         await note.save()
         res.status(200).send({note})

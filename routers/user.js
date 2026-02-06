@@ -1,5 +1,7 @@
 const express = require(`express`)
 const User = require(`../models/user`)
+const Course = require(`../models/course`)
+const Note = require(`../models/note`)
 const auth = require(`../middleware/auth`)
 const router = new express.Router()
 
@@ -67,6 +69,24 @@ router.get(`/users/me`, auth, async (req, res) => {
         res.status(201).send({user})
     } catch(err) {
         res.status(400).send(`Error: ${err}`)
+    }
+})
+
+//delete user/account
+router.delete(`/users/me`, auth, async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.user._id)
+        
+            if(!user) {
+                throw new Error("User doesn't exist")
+            }
+            await Course.deleteMany({owner: req.user._id})
+            await Note.deleteMany({})
+            res.status(200).send({user})
+
+    }catch(err) {
+        res.status(404).send()
+        console.log(err)
     }
 })
 module.exports = router
