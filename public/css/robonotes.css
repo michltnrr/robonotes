@@ -1,8 +1,71 @@
 body{
-
     font-family: straight-strokes,sans-serif;
     background-color: #000000;
 }
+
+/* ===== HEADER LAYOUT FIX ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* remove old spacing hacks if they exist */
+header a button {
+    margin-right: 0;
+}
+
+/* ============================= */
+
+.homebutton {
+    text-decoration: none;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: -25px;
+    margin-top: -15px;
+}
+
+button {
+    border-radius: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: rgb(216, 49, 49);
+}
+
+.typewriter {
+    border-bottom: 1px solid pink;
+    overflow: hidden;
+    white-space: nowrap;
+    letter-spacing: .15em;
+    position: relative;
+}
+
+.typewriter span {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.typewriter span:nth-child(odd) {
+    background: linear-gradient(to left, rgb(217, 59, 85), rgb(45, 168, 210));
+}
+
+.typewriter span:nth-child(even) {
+    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
+}
+
 
 .homebutton {
     text-decoration: none;
@@ -28,6 +91,7 @@ h1 {
     padding: 10px 20px; /* Add padding for better appearance */
     background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
     border: none;
+    /* margin-top: 100px; */
 }
 
 button:hover {

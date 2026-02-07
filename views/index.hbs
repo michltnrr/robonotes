@@ -6,15 +6,18 @@
         <link rel="stylesheet" href="/css/robonotes.css">
             <link rel="stylesheet" href="/css/footer.css">
             <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
-            <script src="../public/newserver.js"></script>
+            {{!-- <script src="../public/newserver.js"></script> --}}
     </head>
     <body>
         <style>
         
         #sign{
-            margin-left: 1000px;
+            position: absolute;
+            top: 30px;
+            right: 20px;
             color: white;
             background: linear-gradient(to right, rgb(211, 79, 101), rgb(210, 17, 17));
+            margin: 0;
         }
         #sign:active{
             background: white;
@@ -25,15 +28,15 @@
             color: white;
         }
 
+
         </style>
        {{>header}}
         <header class="intlink">
 
-            {{!-- <a href="/summary"><button>Get Summary</button></a> --}}
             <a href="/study"><button>Study Hub</button></a>
             <a href="/assistant"><button>Project Assistant</button></a>
         </header>
-        {{!-- <button id="sign">Sign In</button> --}}
+        <a href="/sign"><button id="sign">Sign Up/Login</button></a>
 
         {{>footer}}
     </body>

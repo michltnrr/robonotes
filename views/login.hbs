@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: black;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        footer{
+            color: white;
+        }
+
+        /* New wrapper to center only the form */
+        .center-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 192, 203, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            background: linear-gradient(
+                to right,
+                rgb(217, 59, 85),
+                rgb(45, 168, 210)
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 192, 203, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: straight-strokes, sans-serif;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgb(217, 59, 85);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            background: linear-gradient(
+                to right,
+                rgb(217, 59, 85),
+                rgb(45, 168, 210)
+            );
+            border: none;
+            color: white;
+            font-family: straight-strokes, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: rgb(49, 141, 216);
+        }
+
+        button:active {
+            background: linear-gradient(
+                to right,
+                rgb(45, 168, 210),
+                rgb(57, 57, 219)
+            );
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: rgb(217, 59, 85);
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    {{> header}}
+
+    <div class="center-wrapper">
+        <div class="signup-container">
+            <h2>Log In</h2>
+
+            <form action="/users/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" id="login">Log In</button>
+            </form>
+        </div>
+    </div>
+    
+    {{>footer}}
+    <script src="/login.js"></script>
+
+</body>
+</html>

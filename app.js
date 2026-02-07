@@ -21,6 +21,7 @@ const fsPromises = require(`fs`).promises
 const ESSAY_JSON_FILE = path.join(__dirname, 'essay', 'generated-essay.json')
 const app = express()
 app.use(express.json()) 
+app.use(express.urlencoded({ extended: true }));
 app.use('/media', express.static(path.join(__dirname, 'media')));
 
 
@@ -40,6 +41,18 @@ hbs.registerPartials(partialsPath)
 
 app.get(`/`, (req, res) => {
     res.render(`index`, {
+        name: `Mike Turner`
+    })
+})
+
+app.get(`/sign`, (req, res) => {
+    res.render(`sign`, {
+        name: `Mike Turner`
+    })
+})
+
+app.get(`/login`, (req, res) => {
+    res.render(`login`, {
         name: `Mike Turner`
     })
 })
@@ -147,6 +160,7 @@ app.get(`/assistant`, (req, res) => {
         name: `Mike Turner`
     })
 })
+
 
 app.get(`/writer/assistant`, async (req, res) => {
     
