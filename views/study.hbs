@@ -2,15 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robonotes - Study Hub</title>
-    <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <style>
+     
         body {
             background-color: #000000;
             color: white;
             font-family: 'Roboto', sans-serif;
+        }
+       
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2da8d2, #d93b55);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Simple footer */
+        footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 60px;
         }
 
         /* Main content centered */
@@ -46,6 +66,7 @@
             display: flex;
             justify-content: center;
             margin-bottom: 24px;
+            padding: 0 20px;
         }
 
         .input-wrapper {
@@ -60,6 +81,35 @@
         .input-wrapper:focus-within {
             border-color: #2da8d2;
             box-shadow: 0 4px 32px rgba(45,168,210,0.15);
+        }
+
+        /* Course selector at the top of input */
+        .course-selector {
+            padding: 12px 24px 8px;
+            border-bottom: 1px solid #252525;
+        }
+
+        .course-select {
+            background: #252525;
+            border: 1px solid #333;
+            color: #e8e8e8;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+            min-width: 200px;
+        }
+
+        .course-select:hover {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+
+        .course-select:focus {
+            border-color: #2da8d2;
         }
 
         .main-input {
@@ -85,11 +135,14 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 16px 8px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .mode-selector {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .mode-btn {
@@ -125,111 +178,20 @@
         .submit-btn:hover { background: #2190b0; transform: scale(1.05); }
         .submit-btn:active { transform: scale(0.95); }
 
-        .output-section {
-            width: 100%;
-            max-width: 800px;
-            margin-top: 40px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .output-section.active { display: flex; }
-
-        .output-content {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 16px;
-            padding: 28px;
-            min-height: 200px;
-            color: #e8e8e8;
-            line-height: 1.7;
-            font-size: 1rem;
-            white-space: pre-wrap;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .output-content:focus { outline: none; border-color: #d55193; }
-
-        .output-content:empty:before {
-            content: 'Generated content will appear here...';
-            color: #555;
-        }
-
-        .output-actions {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-
-        /* Quiz container - now separate from input */
-        .quiz-section {
-            width: 100%;
-            max-width: 800px;
-            margin-top: 32px;
-            display: none;
-        }
-
-        .quiz-section.active {
-            display: block;
-        }
-
-        .quiz-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #1a1a1a;
-            border: 1px solid #252525;
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .quiz-container form {
-            margin-bottom: 20px;
-        }
-
-        .quiz-question {
-            margin: 0 0 12px 0;
-            font-weight: 500;
-            font-size: 0.95rem;
-            text-align: left;
-            color: #e8e8e8;
-        }
-
-        .quiz-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            font-size: 0.9rem;
-            background-color: rgba(255, 255, 255, 0.03);
-            margin-bottom: 8px;
-        }
-
-        .quiz-option:hover { background-color: rgba(255, 255, 255, 0.08); }
-
-        .quiz-option input[type="radio"] { cursor: pointer; }
-
-        .quiz-option label { cursor: pointer; font-family: 'Roboto', sans-serif; }
-
         @media (max-width: 768px) {
-            .mode-selector { flex-wrap: wrap; }
-            .output-content, .quiz-container { max-width: 100%; }
+            .mode-selector { 
+                width: 100%;
+            }
+            
+            .mode-btn {
+                flex: 1;
+                min-width: 0;
+            }
         }
-
-
-
-
     </style>
 </head>
 <body>
-    {{>header}}
+   {{>header}}
 
     <div class="main-content">
         <h1 id="greeting">Welcome to your study hub</h1>
@@ -237,6 +199,18 @@
 
         <div class="input-container">
             <div class="input-wrapper">
+                <!-- Course selector integrated at top -->
+                <div class="course-selector">
+                    <select class="course-select" id="courseSelect">
+                        <option value="">Select a course...</option>
+                        <option value="1">Calculus I</option>
+                        <option value="2">Physics 101</option>
+                        <option value="3">Introduction to Psychology</option>
+                        <option value="4">Data Structures</option>
+                        <option value="add-new">+ Add New Course</option>
+                    </select>
+                </div>
+
                 <textarea 
                     class="main-input" 
                     id="mainInput"
@@ -253,49 +227,55 @@
                 </div>
             </div>
         </div>
-        
-        {{!-- output container --}}
-        <div class="output-section" id="outputSection">
-            <div class="output-content" id="outputContent" contenteditable="true"></div>
-
-            <div class="output-actions">
-                <button id="clipboard" hidden>Copy</button>
-                <button id="clear" hidden>Clear</button>
-            </div>
-        </div>
-
-        <!-- Quiz container - now in its own section -->
-        <div class="quiz-section" id="quizSection">
-            <div class="quiz-container" id="quizContainer">
-                <form class="quiz-contents">
-                    <p class="quiz-question">1. Which of the following is used to declare a variable in JavaScript?</p>
-
-                    <div class="quiz-option">
-                        <input type="radio" name="question1" id="q1-a">
-                        <label for="q1-a">A. var</label>
-                    </div>
-
-                    <div class="quiz-option">
-                        <input type="radio" name="question1" id="q1-b">
-                        <label for="q1-b">B. let</label>
-                    </div>
-
-                    <div class="quiz-option">
-                        <input type="radio" name="question1" id="q1-c">
-                        <label for="q1-c">C. const</label>
-                    </div>
-
-                    <div class="quiz-option">
-                        <input type="radio" name="question1" id="q1-d">
-                        <label for="q1-d">D. all of the above</label>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 
-    {{>footer}}
+   {{>footer}}
+   <script src="../study.js"></script>
 
-    <script src="../study.js"></script>
+    {{!-- <script>
+        // Auto-resize textarea
+        const mainInput = document.getElementById('mainInput');
+        mainInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+
+        // Handle course selector
+        document.getElementById('courseSelect').addEventListener('change', function() {
+            if (this.value === 'add-new') {
+                alert('In production, this would redirect to /courses/manage');
+                this.value = ''; // Reset selection
+            }
+        });
+
+        // Mode selector
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Submit button
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const course = document.getElementById('courseSelect').value;
+            const input = mainInput.value.trim();
+            const mode = document.querySelector('.mode-btn.active').dataset.mode;
+
+            if (!course) {
+                alert('Please select a course first!');
+                return;
+            }
+
+            if (!input) {
+                alert('Please enter a prompt!');
+                return;
+            }
+
+            console.log('Generating:', { course, input, mode });
+            alert(`Generating ${mode} for: "${input}"\nCourse: ${course}`);
+        });
+    </script> --}}
 </body>
 </html>
