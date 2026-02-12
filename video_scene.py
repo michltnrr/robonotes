@@ -1,110 +1,101 @@
 from manim import *
 
-class SolidOfRevolutionArea(Scene):
+class GraphIntersectionSteps(Scene):
     def construct(self):
-        title = Text("Area of a Solid of Revolution").scale(0.9)
+        # Title
+        title = Text("How to Find the Intersection of Two Graphs").scale(0.95)
         title.to_edge(UP)
-        self.play(FadeIn(title), run_time=1.5)
+        self.play(Write(title), run_time=2)
         self.wait(2)
 
-        step1 = Text("Step 1: Sketch the function").scale(0.8)
-        step1.to_edge(DOWN)
-        self.play(FadeIn(step1), run_time=1.2)
-        self.wait(1.5)
-
+        # Step 1: Draw Axes
+        step1 = Text("Step 1: Draw both graphs", font_size=38).scale(0.65)
+        step1.next_to(title, DOWN, buff=0.7)
         axes = Axes(
-            x_range=[0, 4, 1],
-            y_range=[0, 5, 1],
-            x_length=6,
-            y_length=3,
-        ).to_edge(LEFT, buff=0.7)
-
-        graph = axes.plot(lambda x: x**2, color=BLUE)
-        x_label = axes.get_x_axis_label("x").next_to(axes, DOWN)
-        y_label = axes.get_y_axis_label("y").next_to(axes, LEFT)
-        self.play(Create(axes), FadeIn(x_label), FadeIn(y_label), run_time=1.7)
-        self.wait(1.2)
-        self.play(Create(graph), run_time=1.5)
-        self.wait(1.5)
-
-        self.play(FadeOut(step1), run_time=1)
-        self.wait(0.7)
-
-        step2 = Text("Step 2: Shade the region to be rotated").scale(0.8)
-        step2.to_edge(DOWN)
-        self.play(FadeIn(step2), run_time=1.2)
-        self.wait(1)
-
-        area = axes.get_area(graph, [0, 2], color=GREEN_B, opacity=0.6)
-        line_x0 = axes.get_vertical_line(axes.c2p(0,0), color=GRAY)
-        line_x2 = axes.get_vertical_line(axes.c2p(2,0), color=GRAY)
-        self.play(Create(line_x0), Create(line_x2), run_time=1.0)
-        self.play(FadeIn(area), run_time=1.0)
-        self.wait(1.7)
-
-        self.play(FadeOut(step2), run_time=1)
-        self.wait(0.7)
-
-        step3 = Text("Step 3: Set up the integral for volume").scale(0.8)
-        step3.to_edge(DOWN)
-        self.play(FadeIn(step3), run_time=1.2)
-        self.wait(1)
-
-        integral = MathTex(
-            "V", "=",
-            r"\pi \int_{0}^{2} \left[",
-            "x^2",
-            r"\right]^2 dx"
-        ).scale(0.95)
-        integral.next_to(axes, RIGHT, buff=0.9)
-        self.play(Write(integral), run_time=2.0)
+            x_range=[-2, 4, 1],
+            y_range=[-2, 8, 2],
+            x_length=7,
+            y_length=4.2,
+            axis_config={"color": GREY_B},
+        )
+        axes.to_edge(DOWN, buff=0.75)
+        x_label = axes.get_x_axis_label("x")
+        y_label = axes.get_y_axis_label("y")
+        self.play(FadeIn(step1), Create(axes), FadeIn(x_label), FadeIn(y_label), run_time=2)
         self.wait(2)
 
-        self.play(FadeOut(step3), run_time=1)
-        self.wait(0.7)
-
-        step4 = Text("Step 4: Simplify the integrand").scale(0.8)
-        step4.to_edge(DOWN)
-        self.play(FadeIn(step4), run_time=1.2)
+        # Step 2: Plot first function
+        step2 = Text("Step 2: Plot y = x^2 + 1", font_size=38).scale(0.65)
+        step2.next_to(title, DOWN, buff=0.7)
+        graph1 = axes.plot(lambda x: x**2 + 1, x_range=[-1.8, 2.2], color=BLUE_C)
+        equation1 = MathTex("y = x^2 + 1").scale(0.95)
+        equation1.next_to(axes, RIGHT, buff=0.7)
+        self.play(FadeOut(step1), FadeIn(step2), Create(graph1), run_time=2)
+        self.wait(1.5)
+        self.play(FadeIn(equation1), run_time=1)
         self.wait(1)
 
-        integral2 = MathTex(
-            "V", "=",
-            r"\pi \int_{0}^{2}",
-            "x^4",
-            "dx"
-        ).scale(0.95)
-        integral2.next_to(axes, RIGHT, buff=0.9)
-        self.play(TransformMatchingTex(integral, integral2), run_time=1.8)
-        self.wait(1.7)
-
-        self.play(FadeOut(step4), run_time=1)
-        self.wait(0.7)
-
-        step5 = Text("Step 5: Calculate the final volume").scale(0.8)
-        step5.to_edge(DOWN)
-        self.play(FadeIn(step5), run_time=1.2)
-        self.wait(1.2)
-
-        answer = MathTex(
-            "V", "=",
-            r"\pi \left[\dfrac{x^5}{5}\right]_0^2"
-            r"=\,\pi \cdot \dfrac{32}{5}"
-        ).scale(0.93)
-        answer.next_to(axes, RIGHT, buff=0.95)
-        self.play(TransformMatchingTex(integral2, answer), run_time=2)
-        self.wait(2.2)
-
-        self.play(FadeOut(answer), FadeOut(step5), run_time=1.2)
+        # Step 3: Plot second function
+        step3 = Text("Step 3: Plot y = x + 3", font_size=38).scale(0.65)
+        step3.next_to(title, DOWN, buff=0.7)
+        graph2 = axes.plot(lambda x: x + 3, x_range=[-1.8, 4], color=RED_C)
+        equation2 = MathTex("y = x + 3").scale(0.95)
+        equation2.next_to(equation1, DOWN, buff=0.6)
+        self.play(FadeOut(step2), FadeIn(step3), Create(graph2), run_time=2)
+        self.wait(1.5)
+        self.play(FadeIn(equation2), run_time=1)
         self.wait(1)
 
-        finish = Text("The volume is").scale(0.8)
-        finish.to_edge(DOWN)
-        final_val = MathTex(r"\dfrac{32}{5}\,\pi").set_color(GOLD).scale(1.4)
-        final_val.next_to(axes, RIGHT, buff=1)
+        # Step 4: Highlight intersection
+        step4 = Text("Step 4: Locate their intersection", font_size=38).scale(0.65)
+        step4.next_to(title, DOWN, buff=0.7)
+        # Intersection at x^2 + 1 = x + 3 -> x^2 - x - 2 = 0 -> x=2, x=-1
+        # Let's highlight at x=2
+        intersect_x = 2
+        intersect_y = intersect_x + 3  # 5
+        intersection_point = axes.c2p(intersect_x, intersect_y)
+        dot = Dot(intersection_point, color=GOLD, radius=0.12)
+        intersection_label = MathTex("(2,~5)").scale(0.9)
+        intersection_label.next_to(dot, UP + RIGHT, buff=0.4)
+        self.play(FadeOut(step3), FadeIn(step4), Indicate(dot, color=GOLD, scale_factor=1.8), run_time=2)
+        self.wait(2)
+        self.play(FadeIn(dot), FadeIn(intersection_label), run_time=1)
+        self.wait(1)
 
-        self.play(FadeIn(finish), FadeIn(final_val), run_time=1.3)
-        self.wait(2.3)
+        # Step 5: Solve the equations
+        step5 = Text("Step 5: Solve equations to find intersection", font_size=36).scale(0.7)
+        step5.next_to(title, DOWN, buff=0.7)
+        system = VGroup(
+            MathTex("x^2 + 1 = x + 3").scale(0.92),
+            MathTex("x^2 - x - 2 = 0").scale(0.92),
+            MathTex("x = 2,~ x = -1").scale(0.92)
+        ).arrange(DOWN, buff=0.6)
+        system.next_to(axes, RIGHT, buff=0.7)
+        self.play(FadeOut(step4), FadeIn(step5), FadeOut(equation1), FadeOut(equation2), run_time=1)
+        self.wait(1)
+        self.play(FadeIn(system[0]), run_time=1.2)
+        self.wait(1)
+        self.play(FadeIn(system[1]), run_time=1.2)
+        self.wait(1)
+        self.play(FadeIn(system[2]), run_time=1.2)
+        self.wait(2)
 
-        self.play(FadeOut(final_val), FadeOut(finish), FadeOut(axes), FadeOut(graph), FadeOut(x_label), FadeOut(y_label), FadeOut(line_x0), FadeOut(line_x2), FadeOut(area), FadeOut(title), run_time=2)
-        self.wait(1.2)
+        # Fade most things out, end with key idea
+        summary = Text("Graphs intersect where\ntheir equations are equal!", font_size=42).scale(0.85)
+        summary.to_edge(DOWN, buff=0.9)
+        self.play(
+            FadeOut(step5),
+            FadeOut(title),
+            FadeOut(system, shift=UP),
+            FadeOut(dot),
+            FadeOut(intersection_label),
+            FadeOut(graph1),
+            FadeOut(graph2),
+            FadeOut(x_label),
+            FadeOut(y_label),
+            FadeOut(axes),
+            run_time=2
+        )
+        self.wait(1.5)
+        self.play(FadeIn(summary), run_time=1.5)
+        self.wait(2)

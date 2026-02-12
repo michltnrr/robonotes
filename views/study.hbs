@@ -12,6 +12,10 @@
             background-color: #000000;
             color: white;
             font-family: 'Roboto', sans-serif;
+
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
        
         .logo {
@@ -23,18 +27,9 @@
             color: transparent;
         }
 
-        /* Simple footer */
-        footer {
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid #1a1a1a;
-            color: #666;
-            font-size: 0.875rem;
-            margin-top: 60px;
-        }
-
         /* Main content centered */
         .main-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -203,10 +198,6 @@
                 <div class="course-selector">
                     <select class="course-select" id="courseSelect">
                         <option value="">Select a course...</option>
-                        <option value="1">Calculus I</option>
-                        <option value="2">Physics 101</option>
-                        <option value="3">Introduction to Psychology</option>
-                        <option value="4">Data Structures</option>
                         <option value="add-new">+ Add New Course</option>
                     </select>
                 </div>
@@ -229,53 +220,79 @@
         </div>
     </div>
 
+     <!-- OUTPUT SECTION (Hidden Initially) -->
+    <div id="outputSection" style="display:none; margin-top:40px; max-width:800px; width:100%;">
+        <div id="outputContent" style="
+            padding:24px;
+            background:#111;
+            border:1px solid #252525;
+            border-radius:16px;
+            white-space:pre-wrap;
+            text-align:left;
+        "></div>
+
+        <div class="output-actions" style="
+            margin-top:20px;
+            display:flex;
+            justify-content:center;
+            gap:20px;
+        ">
+            <button id="clear" hidden>Clear</button>
+            <button id="save" hidden>Save</button>
+        </div>
+    </div>
+
+
+    <!-- QUIZ SECTION (Hidden Initially) -->
+    <div id="quizSection" style="display:none; margin-top:40px; width:100%; max-width:800px;">
+        <div id="quizContainer"></div>
+    </div>
+
+</div>
+
    {{>footer}}
    <script src="../study.js"></script>
 
-    {{!-- <script>
-        // Auto-resize textarea
-        const mainInput = document.getElementById('mainInput');
-        mainInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
+    <script>
 
-        // Handle course selector
-        document.getElementById('courseSelect').addEventListener('change', function() {
-            if (this.value === 'add-new') {
-                alert('In production, this would redirect to /courses/manage');
-                this.value = ''; // Reset selection
-            }
-        });
+        async function getCourses() {
+            const token = localStorage.getItem(`token`)
+            
+            const userCourses = await fetch(`/courses`, {
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json",
+                    "Authorization" : `Bearer ${token}`
+                }
+            })
+        return await userCourses.json()
+        }
 
-        // Mode selector
-        const modeBtns = document.querySelectorAll('.mode-btn');
-        modeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                modeBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        async function populateDropdown() {
+            const courses = await getCourses()
+            const select = document.getElementById('courseSelect')
 
-        // Submit button
-        document.getElementById('submitBtn').addEventListener('click', function() {
-            const course = document.getElementById('courseSelect').value;
-            const input = mainInput.value.trim();
-            const mode = document.querySelector('.mode-btn.active').dataset.mode;
+            const addnewOption = select.querySelector('option[value="add-new"]')
 
-            if (!course) {
-                alert('Please select a course first!');
-                return;
-            }
+            courses.forEach(c => {
+                const option = document.createElement('option')
+                option.value = c._id
+                option.textContent = c.name
 
-            if (!input) {
-                alert('Please enter a prompt!');
-                return;
+                select.insertBefore(option, addnewOption)
+            })
+        
+            select.addEventListener('change', function() {
+            const selectedCourseid = this.value
+
+            if(selectedCourseid === "add-new") {
+                window.location.href = `/addcourse`
             }
 
-            console.log('Generating:', { course, input, mode });
-            alert(`Generating ${mode} for: "${input}"\nCourse: ${course}`);
-        });
-    </script> --}}
+            console.log(`Selected Course ${selectedCourseid}`)
+        })
+        }
+        document.addEventListener('DOMContentLoaded', populateDropdown)
+    </script>
 </body>
 </html>

@@ -6,11 +6,13 @@ const outputContent = document.getElementById('outputContent');
 const quizContainer = document.getElementById('quizContainer');
 let copyclearDiv = document.querySelector(`.output-actions`)
 
-let copyButton = document.getElementById('clipboard')
+let saveButton = document.getElementById('save')
 let clearButton = document.getElementById('clear')
-let quizSubmit;
+let quizSubmit
+let courseId, courseName
 
 let currentMode = 'video'
+const token = localStorage.getItem('token')
 
 // Auto-resize textarea
 input.addEventListener('input', function() {
@@ -34,24 +36,43 @@ modeBtns.forEach(btn => {
     });
 });
 
-copyButton.addEventListener('click', () => {
-    const text = outputContent.textContent
-    navigator.clipboard.writeText(text)
+saveButton.addEventListener('click', async () => {
+    courseId = document.getElementById(`courseSelect`).value
+    courseName = document.getElementById(`courseSelect`).textContent
+    const saveNote = await fetch(`/courses/${courseId}/notes`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorizaton": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            noteType: currentMode,
+            prompt: promptAction,
+            course: courseName
+        })
+    })
+
+    if(!saveNote.status.ok) {
+        console.log(`Error saving note`)
+        return
+    }
+    const note = await saveNote.json()
+    console.log(note)
 })
 
-copyButton.addEventListener('mouseenter', () => {
-    copyButton.style.color = 'black'
+saveButton.addEventListener('mouseenter', () => {
+    saveButton.style.color = 'black'
 })
 
-copyButton.addEventListener('mouseleave', () => {
-    copyButton.style.color = 'white'
+saveButton.addEventListener('mouseleave', () => {
+    saveButton.style.color = 'white'
 })
 
 clearButton.addEventListener('click', () => {
     outputContent.textContent = ''
-    outputSection.classList.remove('active')
+    outputSection.style.display = 'none'
     
-    copyButton.hidden = true
+    saveButton.hidden = true
     clearButton.hidden = true
 })
 
@@ -287,20 +308,20 @@ async function generate() {
 
     else if (currentMode === 'summary') {
         console.log(response)
-        outputSection.classList.add('active')
+        outputSection.style.display = 'block'
         outputContent.textContent = response.response
 
-        copyButton.style.border = 'none'
-        copyButton.style.borderRadius = '20px'
-        copyButton.style.font = 'Roboto'
-        copyButton.style.fontSize = 'medium'
-        copyButton.style.width = '70px'
-        copyButton.style.height = '30px'
-        copyButton.style.marginLeft = '100px'
-        copyButton.style.marginRight = '135px'
-        copyButton.style.marginTop = '20px'
-        copyButton.style.color = 'white'
-        copyButton.style.background =  `linear-gradient(to right, rgb(217, 59, 85), rgb(255, 47, 0))`
+        saveButton.style.border = 'none'
+        saveButton.style.borderRadius = '20px'
+        saveButton.style.font = 'Roboto'
+        saveButton.style.fontSize = 'medium'
+        saveButton.style.width = '70px'
+        saveButton.style.height = '30px'
+        saveButton.style.marginLeft = '100px'
+        saveButton.style.marginRight = '135px'
+        saveButton.style.marginTop = '20px'
+        saveButton.style.color = 'white'
+        saveButton.style.background =  `linear-gradient(to right, rgb(217, 59, 85), rgb(255, 47, 0))`
         
         clearButton.style.border = 'none'
         clearButton.style.borderRadius = '20px'
@@ -313,7 +334,7 @@ async function generate() {
         clearButton.style.color = 'white'
         clearButton.style.background = 'rgb(45, 168, 210)'
 
-        copyButton.hidden = false
+        saveButton.hidden = false
         clearButton.hidden = false
     }
     else {

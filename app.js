@@ -57,6 +57,12 @@ app.get(`/login`, (req, res) => {
     })
 })
 
+app.get(`/addcourse`, (req, res) => {
+    res.render(`addcourse`, {
+        name: `Mike Turner`
+    })
+})
+
 app.get(`/summary`, (req, res) => {
     res.render(`summary`, {
         name: 'Mike Turner'

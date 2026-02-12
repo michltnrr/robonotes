@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robonotes - Add courses</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Simple header */
+        header {
+            padding: 20px 40px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2da8d2, #d93b55);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2da8d2, #d93b55);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .courses-form {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .course-item {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .course-inputs {
+            flex: 1;
+            display: flex;
+            gap: 12px;
+        }
+
+        .course-input {
+            flex: 1;
+            background: #252525;
+            border: 1px solid #333;
+            color: #e8e8e8;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .course-input::placeholder {
+            color: #666;
+        }
+
+        .course-input:focus {
+            border-color: #2da8d2;
+            background: #2a2a2a;
+        }
+
+        .subject-select {
+            min-width: 180px;
+            background: #252525;
+            border: 1px solid #333;
+            color: #e8e8e8;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .subject-select:hover {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+
+        .subject-select:focus {
+            border-color: #2da8d2;
+            background: #2a2a2a;
+        }
+
+        .remove-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn:hover {
+            background: #2a2a2a;
+            border-color: #d93b55;
+            color: #d93b55;
+        }
+
+        .add-course-btn {
+            width: 100%;
+            background: #252525;
+            border: 1px dashed #444;
+            color: #888;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .add-course-btn:hover {
+            background: #2a2a2a;
+            border-color: #2da8d2;
+            color: #2da8d2;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .skip-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .skip-btn:hover {
+            background: #2a2a2a;
+            border-color: #666;
+            color: #aaa;
+        }
+
+        .continue-btn {
+            flex: 2;
+            background: linear-gradient(135deg, #2da8d2 0%, #d93b55 100%);
+            border: none;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(45,168,210,0.3);
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45,168,210,0.4);
+        }
+
+        .continue-btn:active {
+            transform: translateY(0);
+        }
+
+        .continue-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #d93b55;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .courses-form {
+                padding: 24px;
+            }
+
+            .course-inputs {
+                flex-direction: column;
+            }
+
+            .subject-select {
+                min-width: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .skip-btn, .continue-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    {{>header}}
+
+    <div class="main-content">
+        <div class="header-section">
+            <h1 class="main-title">Let's add your courses</h1>
+            <p class="subtitle">All notes must belong to a course</p>
+            <p class="description">Add the courses you're taking this semester. You can always add more later in your account settings.</p>
+        </div>
+
+        <form class="courses-form" id="coursesForm">
+            <div class="course-list" id="courseList">
+                <!-- Initial course inputs -->
+                <div class="course-item">
+                    <div class="course-inputs">
+                        <input 
+                            type="text" 
+                            class="course-input" 
+                            placeholder="e.g., Calculus I, Physics 101, Introduction to Psychology"
+                            required
+                        >
+                        <select class="subject-select" required>
+                            <option value="">Select subject...</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Science">Science</option>
+                            <option value="English">English</option>
+                            <option value="History">History</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business">Business</option>
+                            <option value="Psychology">Psychology</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Art">Art</option>
+                            <option value="Music">Music</option>
+                            <option value="Language">Language</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removeCourse(this)" style="visibility: hidden;">×</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-course-btn" onclick="addCourseInput()">
+                + Add Another Course
+            </button>
+
+            <p class="error-message" id="errorMessage">Please add at least one course with a subject to continue</p>
+
+            <div class="action-buttons">
+                <button type="submit" class="continue-btn">Continue to Study Hub</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        let courseCount = 1;
+
+        function addCourseInput() {
+            courseCount++;
+            const courseList = document.getElementById('courseList');
+            const newCourse = document.createElement('div');
+            newCourse.className = 'course-item';
+            newCourse.innerHTML = `
+                <div class="course-inputs">
+                    <input 
+                        type="text" 
+                        class="course-input" 
+                        placeholder="e.g., Calculus I, Physics 101, Introduction to Psychology"
+                    >
+                    <select class="subject-select">
+                        <option value="">Select subject...</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="History">History</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Psychology">Psychology</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Art">Art</option>
+                        <option value="Music">Music</option>
+                        <option value="Language">Language</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeCourse(this)">×</button>
+            `;
+            courseList.appendChild(newCourse);
+
+            // Show remove button on first input if there are now multiple
+            if (courseCount > 1) {
+                const firstRemoveBtn = courseList.querySelector('.course-item:first-child .remove-btn');
+                firstRemoveBtn.style.visibility = 'visible';
+            }
+        }
+
+        function removeCourse(button) {
+            const courseItem = button.parentElement;
+            const courseList = document.getElementById('courseList');
+            
+            if (courseList.children.length > 1) {
+                courseItem.remove();
+                courseCount--;
+
+                // Hide first remove button if only one course left
+                if (courseList.children.length === 1) {
+                    const firstRemoveBtn = courseList.querySelector('.course-item:first-child .remove-btn');
+                    firstRemoveBtn.style.visibility = 'hidden';
+                }
+            }
+        }
+
+        document.getElementById('coursesForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const courseItems = document.querySelectorAll('.course-item');
+            const courses = [];
+            
+            courseItems.forEach(item => {
+                const nameInput = item.querySelector('.course-input');
+                const subjectSelect = item.querySelector('.subject-select');
+                //actual name of course & subject
+                const name = nameInput.value.trim();
+                const subject = subjectSelect.value;
+                
+                if (name && subject) {
+                    courses.push({ name, subject });
+                }
+            });
+
+            if (courses.length === 0) {
+                document.getElementById('errorMessage').classList.add('show');
+                return;
+            }
+
+            document.getElementById('errorMessage').classList.remove('show');
+
+            // Demo: Show what would be sent
+            console.log('Courses to add:', courses);
+            const token = localStorage.getItem('token')
+            console.log(`Token: ${token}`)
+            
+            await Promise.all(
+                courses.map( c => 
+                    fetch(`/courses`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type' : 'application/json',
+                            'Authorization' : `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            name: c.name,
+                            subject: c.subject
+                        })
+                    })
+                )
+            )
+            window.location.href = `/study`
+        });
+
+    </script>
+    {{>footer}}
+</body>
+</html>
