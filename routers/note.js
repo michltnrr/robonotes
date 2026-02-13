@@ -11,7 +11,7 @@ router.post(`/courses/:courseId/notes`, auth, async (req, res) => {
             course: req.params.courseId
         })
         await note.save()
-        res.status(200).send({note})
+        res.status(201).send({note})
     } catch(err) {
         res.status(400).send({err})
         console.log(err)

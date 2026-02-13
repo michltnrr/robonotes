@@ -183,6 +183,84 @@
                 min-width: 0;
             }
         }
+
+         .quiz-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 32px;
+            display: none;
+        }
+
+        .quiz-section.active {
+            display: block;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            border: 1px solid #252525;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .quiz-container form {
+            margin-bottom: 20px;
+        }
+
+        .quiz-question {
+            margin: 0 0 12px 0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: left;
+            color: #e8e8e8;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-size: 0.9rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            margin-bottom: 8px;
+        }
+
+        .quiz-option:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+        .quiz-option input[type="radio"] { cursor: pointer; }
+
+        .quiz-option label { cursor: pointer; font-family: 'Roboto', sans-serif; }
+
+        #actionSection {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .video-border {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 575px;
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -194,6 +272,7 @@
 
         <div class="input-container">
             <div class="input-wrapper">
+                
                 <!-- Course selector integrated at top -->
                 <div class="course-selector">
                     <select class="course-select" id="courseSelect">
@@ -208,6 +287,7 @@
                     placeholder="Visualize the mechanics of hydrostatic force..."
                     rows="1"
                 ></textarea>
+                
                 <div class="input-footer">
                     <div class="mode-selector">
                         <button class="mode-btn active" data-mode="video">📹 Video Generator</button>
@@ -216,6 +296,7 @@
                     </div>
                     <button class="submit-btn" id="submitBtn">↑</button>
                 </div>
+           
             </div>
         </div>
     </div>
@@ -230,24 +311,20 @@
             white-space:pre-wrap;
             text-align:left;
         "></div>
-
-        <div class="output-actions" style="
-            margin-top:20px;
-            display:flex;
-            justify-content:center;
-            gap:20px;
-        ">
-            <button id="clear" hidden>Clear</button>
-            <button id="save" hidden>Save</button>
-        </div>
     </div>
-
 
     <!-- QUIZ SECTION (Hidden Initially) -->
-    <div id="quizSection" style="display:none; margin-top:40px; width:100%; max-width:800px;">
+    <div id="quizSection" class="quiz-section">
         <div id="quizContainer"></div>
     </div>
-
+        
+     
+    <!-- ACTION SECTION -->
+    <div id="actionSection">
+            <button id="clear" hidden>Clear</button>
+            <button id="save" hidden>Save</button>
+            <button id="download" hidden>Download</button>
+    </div>
 </div>
 
    {{>footer}}
