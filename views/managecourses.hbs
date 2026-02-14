@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - Robonotes</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2da8d2, #d93b55);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    
+        .page-container {
+            flex: 1;
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+            gap: 24px;
+        }
+        .sidebar {
+            width: 260px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #e8e8e8;
+            margin-bottom: 20px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 6px;
+            color: #888;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .nav-item:hover { background: #252525; color: #aaa; }
+        .nav-item.active { background: #2da8d2; color: white; }
+        .nav-icon { font-size: 1.2rem; }
+        .main-content { flex: 1; min-width: 0; }
+        .page-header { margin-bottom: 32px; }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2da8d2, #d93b55);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        .page-description { color: #888; font-size: 1rem; }
+        .add-course-btn {
+            background: #2da8d2;
+            border: none;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            margin-bottom: 24px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .add-course-btn:hover { background: #2190b0; transform: translateY(-2px); }
+        .courses-grid { display: grid; gap: 16px; }
+        .course-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .course-card:hover { background: #1f1f1f; border-color: #333; }
+        .course-info { flex: 1; }
+        .course-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e8e8e8;
+            margin-bottom: 8px;
+        }
+        .subject-badge {
+            display: inline-block;
+            background: #2da8d2;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .course-meta { font-size: 0.9rem; color: #666; }
+        .course-actions { display: flex; gap: 8px; }
+        .edit-btn, .delete-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: 500;
+        }
+        .edit-btn:hover { background: #2a2a2a; border-color: #2da8d2; color: #2da8d2; }
+        .delete-btn:hover { background: #2a2a2a; border-color: #d93b55; color: #d93b55; }
+        @media (max-width: 968px) {
+            .page-container { flex-direction: column; }
+            .sidebar { width: 100%; position: static; }
+        }
+        @media (max-width: 640px) {
+            .course-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .course-actions { width: 100%; }
+            .edit-btn, .delete-btn { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+    {{>header}}
+
+    <div class="page-container">
+      
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">My Courses</h1>
+                <p class="page-description">View and manage your courses</p>
+            </div>
+
+            <a href="#" class="add-course-btn">+ Add New Course</a>
+
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-info">
+                        <div class="course-name">Calculus I<span class="subject-badge">Math</span></div>
+                        <div class="course-meta">12 notes</div>
+                    </div>
+                    <div class="course-actions">
+                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
+                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-info">
+                        <div class="course-name">Physics 101<span class="subject-badge">Science</span></div>
+                        <div class="course-meta">8 notes</div>
+                    </div>
+                    <div class="course-actions">
+                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
+                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-info">
+                        <div class="course-name">Data Structures<span class="subject-badge">CS</span></div>
+                        <div class="course-meta">15 notes</div>
+                    </div>
+                    <div class="course-actions">
+                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
+                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    {{>footer}}
+    <script>
+        
+    </script>
+</body>
+</html>
