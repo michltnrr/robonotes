@@ -25,8 +25,12 @@ router.post(`/users/login`, async (req, res) => {
         //recall findbyCredentials is a static method, so here we operate directly on the User model itslef, not an instace of it
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
+
+        res.cookie('auth_token', token, {
+            httpOnly: true,
+            sameSite: 'lax'
+        })
         res.status(200).send({user, token})
-        res.redirect(`/`)
     }catch(err) {
         console.log(`${err}`)
         res.status(400).send()

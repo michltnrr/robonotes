@@ -6,6 +6,10 @@ const userRouter = require(`./routers/user`)
 const courseRouter = require(`./routers/course`)
 const noteRouter = require(`./routers/note`)
 
+const cookieParser = require('cookie-parser')
+const pageAuth = require('./middleware/pageauth')
+
+
 
 const {getTranscript} = require(`./public/youtube.js`)
 const {main} = require(`./public/openai-app.js`)
@@ -34,6 +38,8 @@ app.use(userRouter)
 app.use(courseRouter)
 app.use(noteRouter)
 
+app.use(cookieParser())
+app.use(pageAuth)
 
 app.set(`view engine`, `hbs`)
 app.set(`views`, viewsPath)
@@ -71,6 +77,12 @@ app.get(`/managecourses`, (req, res) => {
 
 app.get(`/addcourse`, (req, res) => {
     res.render(`addcourse`, {
+        name: `Mike Turner`
+    })
+})
+
+app.get(`/mynotes`, (req, res) => {
+    res.render(`notes`, {
         name: `Mike Turner`
     })
 })

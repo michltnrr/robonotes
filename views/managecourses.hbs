@@ -164,48 +164,104 @@
                 <p class="page-description">View and manage your courses</p>
             </div>
 
-            <a href="#" class="add-course-btn">+ Add New Course</a>
+            <a href="/addcourse" class="add-course-btn">+ Add New Course</a>
 
             <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-info">
-                        <div class="course-name">Calculus I<span class="subject-badge">Math</span></div>
-                        <div class="course-meta">12 notes</div>
-                    </div>
-                    <div class="course-actions">
-                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
-                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="course-card">
-                    <div class="course-info">
-                        <div class="course-name">Physics 101<span class="subject-badge">Science</span></div>
-                        <div class="course-meta">8 notes</div>
-                    </div>
-                    <div class="course-actions">
-                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
-                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="course-card">
-                    <div class="course-info">
-                        <div class="course-name">Data Structures<span class="subject-badge">CS</span></div>
-                        <div class="course-meta">15 notes</div>
-                    </div>
-                    <div class="course-actions">
-                        <button class="edit-btn" onclick="alert('Edit course')">Edit</button>
-                        <button class="delete-btn" onclick="alert('Delete course')">Delete</button>
-                    </div>
-                </div>
+               
+            </div>
             </div>
         </main>
     </div>
 
     {{>footer}}
     <script>
+        const token = localStorage.getItem('token')
         
+        async function getCourses() {
+            
+            const userCourses = await fetch(`/courses`, {
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json",
+                    "Authorization" : `Bearer ${token}`
+                }
+            })
+
+            return await userCourses.json()
+        }
+
+        async function displayCourses() {
+            const coursesData = await getCourses()
+            const coursesGrid = document.querySelector('.courses-grid')
+            coursesGrid.innerHTML = ''
+
+
+            coursesData.forEach((c) => {
+                const courseCard = document.createElement('div')
+                courseCard.classList.add('course-card')
+                courseCard.dataset.id = c._id //id stored for deleting
+
+                const courseInfo = document.createElement('div')
+                courseInfo.classList.add('course-info')
+
+
+                const courseName = document.createElement('div')
+                courseName.classList.add('course-name')
+                courseName.textContent = c.name 
+
+                const subjectBadge = document.createElement('span')
+                subjectBadge.classList.add('subject-badge')
+                subjectBadge.textContent = c.subject
+
+                courseName.appendChild(subjectBadge)
+
+                courseInfo.appendChild(courseName)
+
+                const courseActions = document.createElement('div')
+                
+                courseActions.classList.add('course-actions')
+
+                const deleteBtn = document.createElement('button')
+                deleteBtn.classList.add('delete-btn')
+                deleteBtn.textContent = 'Delete'
+
+                deleteBtn.addEventListener('click', async() => {
+                    try {
+                    const deleteCourse = await fetch(`/courses/${c._id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type" : "application/json",
+                            "Authorization" : `Bearer ${token}`
+                        }
+                    })
+                    
+                    if(!deleteCourse.ok) {
+                        console.log('Error deleting course')
+                        return
+                    }
+
+                    courseCard.remove()
+
+                    } catch(err) {
+                        console.log(err)
+                    }
+                })
+
+                courseActions.appendChild(deleteBtn)
+
+                // Assemble card
+                courseCard.appendChild(courseInfo)
+                courseCard.appendChild(courseActions)
+
+                // Add to grid
+                coursesGrid.appendChild(courseCard)
+            })
+        }
+
+        async function main() {
+            await displayCourses()
+        }
+        main()
     </script>
 </body>
 </html>

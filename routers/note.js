@@ -18,33 +18,39 @@ router.post(`/courses/:courseId/notes`, auth, async (req, res) => {
     }
 })
 
-//get all notes for course
-router.get(`/courses/:courseId/notes`, auth, async (req, res) => {
+//get notes with filtering options
+router.get(`/notes`, auth, async (req, res) => {
+    //notes/?sortBy=createdAt_asc
     try {
-        const notes = await Note.find({course: req.params.courseId})
-        
-        if(!notes) {
-            throw new Error("No notes found for course")
+        const filter = {}
+        const sort = {}
+
+        //filter
+        if(req.query.course) {
+            filter.course = req.query.course
         }
+
+        if(req.query.type) {
+            filter.noteType = req.query.type
+        }
+
+        //sort
+        if(req.query.sortBy) {
+            const parts = req.query.sortBy.split('_')
+            const field = parts[0]
+            const order = parts[1] === 'asc' ? 1 : -1
+
+            sort[field] = order
+        } 
+        else {
+            sort.createdAt = -1
+        }
+
+        const notes = await Note.find(filter).sort(sort).populate('course')
         res.status(200).send({notes})
     }catch(err) {
-        res.status(404).send({err})
         console.log(err)
-    }
-})
-
-//get notes of specific type for course
-router.get(`/courses/:courseId/:type/notes`, auth, async (req, res) => {
-    try {
-        const notestoFind = await Note.find({course: req.params.courseId, noteType: req.params.type})
-
-        if(!notestoFind) {
-            throw new Error(`No ${req.params.type} notes found for the course`)
-        }
-        res.status(200).send({notestoFind})
-    } catch(err) {
-        res.status(404).send()
-        console.log(err)
+        res.status(400).send()
     }
 })
 
