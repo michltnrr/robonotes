@@ -29,6 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/media', express.static(path.join(__dirname, 'media')));
 
 
+app.use(cookieParser())
+app.use(pageAuth)
+
 const viewsPath = path.join(__dirname, `/views`)
 const partialsPath = path.join(__dirname, `/views/partials`)
 const publicPath = path.join(__dirname, '/public')
@@ -38,8 +41,10 @@ app.use(userRouter)
 app.use(courseRouter)
 app.use(noteRouter)
 
-app.use(cookieParser())
-app.use(pageAuth)
+app.use((req, res, next) => {
+    res.locals.user = req.user
+    next()
+})
 
 app.set(`view engine`, `hbs`)
 app.set(`views`, viewsPath)

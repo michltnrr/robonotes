@@ -1,0 +1,44 @@
+#sign{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    color: white;
+    background: linear-gradient(to right, rgb(211, 79, 101), rgb(210, 17, 17));
+    margin: 0;
+}
+#sign:active{
+    background: white;
+    background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
+}
+
+button{
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-btn {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: linear-gradient(to right, rgb(211, 79, 101), rgb(210, 17, 17));
+    transition: 0.2s ease;
+}
+
+.header-btn:hover {
+    background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
+}

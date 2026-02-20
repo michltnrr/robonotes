@@ -6,10 +6,9 @@
 <br>
 </a>
 
-  {{!-- <div class="nav-right">
-    {{#if user}}
-    <a href="/account"> <button>My Account</button></a>
-    {{else}}
-    <a href="/sign"><button>Sign Up/Login</button></a>
-    {{/if}}
-  </div> --}}
+
+{{#if user}}
+<a href="/account"> <button id="sign">My Account</button></a>
+{{else}}
+<a href="/sign"><button id="sign">Sign Up/Login</button></a>
+{{/if}}

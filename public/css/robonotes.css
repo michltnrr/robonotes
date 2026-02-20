@@ -89,14 +89,7 @@ h1 {
  } */
 
 
-  button {
-    margin-right: 10px; /* Adjust the spacing between buttons */
-    border-radius: 20px; /* Make buttons round */
-    padding: 10px 20px; /* Add padding for better appearance */
-    background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
-    border: none;
-    /* margin-top: 100px; */
-}
+/* delete button */
 
 button:hover {
     background: rgb(216, 49, 49); /* Change background color when hovering */
@@ -244,3 +237,4 @@ header a button{
         opacity: 1;
     }
 }
+

@@ -7,104 +7,9 @@
         <link rel="icon" href="robonotesnewlogo2.png" type="image/png">
         <link rel="stylesheet" href="/css/header.css">
         <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/access.css">
 
     </head>
-
-    <body>
-        {{>header}}
-
-       <div class="writer-form">
-        
-        <h1>Essay Writer</h1>
-        
-        <br>
-        <form class="form-info">
-            
-            <label for="title" class="form-sections">Essay Title</label>
-            <br>
-            <input type="text" id="title" name="Title" placeholder="Why Robonotes rocks" class="nonbuttons">
-            <br>
-            
-       
-       
-       
-       
-        <div class="horizontal-group">
-            <div class="horizontal-item">
-                <label class="form-sections">Format</label>
-                <br>
-                <input type="radio" id="mla-format" value="MLA" name="formatter"> 
-                <label for="mla-format">MLA</label>
-                <input type="radio" id="apa-format" value="APA" name="formatter">
-                <label for="apa-format">APA</label>
-                <small id="disclaimer" hidden>*Additional formatting for headers must be done by user</small>
-                
-            </div>
-            
-            
-            
-            
-            <div class="horizontal-item" id="pages-info">
-                <label for="num-pages" class="form-sections">Pages</label>
-                <input type="number" id="num-pages" name="pages" class="nonbuttons">
-            </div>
-        </div>
-           
-           
-        <div class="date-items">
-            <label for="paper-date">Date</label>
-            <input type="text" id="paper-date" placeholder="August 3rd, 2025" name="data">
-            <label for="affiliation" class="affiliation-labels" hidden>Affiliation</label>
-            <input type="text" id="affiliation" placeholder="College of Engineering, Wayne State University" name="affiliation" class="affiliation-labels" hidden>
-        </div>
-            
-
-        <br>
-
-   
-   
-   
-   
-    <div class="horizontal-group">
-            <div class="horizontal-item">
-                <label for="professor" class="form-sections">Professor's Name</label>
-                <br>
-                <input type="text" id="professor" class="nonbuttons" placeholder="Professor's full name" name="profName">
-            </div>
-            
-            <div class="horizontal-item">
-                <label for="users-fullname" class="form-sections">Your Name</label>
-                <br>
-                <input type="text" id="users-fullname" class="nonbuttons" placeholder="Your full name" name="usersName">
-            </div>
-        </div>
-            
-            <br>
-            <label for="classname" class="form-sections">Class Name</label>
-            <input type="text" name="className" id="classname" placeholder="Ex. HIS 2040" class="nonbuttons">
-
-        <div class="sources">
-        <p id="sources">Add Sources:</p>
-        <div id="sources-container"> 
-          <input type="url" placeholder="Link to article" class="source-inputs">
-        </div>
-        <button id="add-source" type="button">Add source</button>
-        </div>
-
-        {{!-- <input type="text" class="sources" name="firstsource" id="source1"> --}}
-
-        <p class="form-sections">Guidelines</p>
-        <textarea name="guidelines" id="guidelines" placeholder="Ex. The essay should be approximately four to six pages in length, or about 1,200 to 1,800 words, and must be double-spaced in 12-point Times New Roman font with one-inch margins."></textarea>
-        
-        <br>
-        
-        <a href=""><button id="essay-link">Generate</button></a>
-
-        </form>
-       
-       
-       </div>
-        {{>footer}}
    
     <style>
         body {
@@ -229,12 +134,16 @@
 
         #essay-link{
             width: 200px;
-            height: 25px;
             color: white;
             background-color: #4A85E7;
             border: none;
             border-radius: 5px;
             margin-left: 150px;
+             height: 25px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #essay-link:hover{
@@ -260,6 +169,102 @@
         }
 
     </style>
+
+    <body>
+        {{>header}}
+
+       <div class="writer-form">
+        
+        <h1>Essay Writer</h1>
+        
+        <br>
+        <form class="form-info">
+            
+            <label for="title" class="form-sections">Essay Title</label>
+            <br>
+            <input type="text" id="title" name="Title" placeholder="Why Robonotes rocks" class="nonbuttons">
+            <br>
+            
+       
+       
+       
+       
+        <div class="horizontal-group">
+            <div class="horizontal-item">
+                <label class="form-sections">Format</label>
+                <br>
+                <input type="radio" id="mla-format" value="MLA" name="formatter"> 
+                <label for="mla-format">MLA</label>
+                <input type="radio" id="apa-format" value="APA" name="formatter">
+                <label for="apa-format">APA</label>
+                <small id="disclaimer" hidden>*Additional formatting for headers must be done by user</small>
+                
+            </div>
+            
+            
+            
+            
+            <div class="horizontal-item" id="pages-info">
+                <label for="num-pages" class="form-sections">Pages</label>
+                <input type="number" id="num-pages" name="pages" class="nonbuttons">
+            </div>
+        </div>
+           
+           
+        <div class="date-items">
+            <label for="paper-date">Date</label>
+            <input type="text" id="paper-date" placeholder="August 3rd, 2025" name="data">
+            <label for="affiliation" class="affiliation-labels" hidden>Affiliation</label>
+            <input type="text" id="affiliation" placeholder="College of Engineering, Wayne State University" name="affiliation" class="affiliation-labels" hidden>
+        </div>
+            
+
+        <br>
+
+   
+   
+   
+   
+    <div class="horizontal-group">
+            <div class="horizontal-item">
+                <label for="professor" class="form-sections">Professor's Name</label>
+                <br>
+                <input type="text" id="professor" class="nonbuttons" placeholder="Professor's full name" name="profName">
+            </div>
+            
+            <div class="horizontal-item">
+                <label for="users-fullname" class="form-sections">Your Name</label>
+                <br>
+                <input type="text" id="users-fullname" class="nonbuttons" placeholder="Your full name" name="usersName">
+            </div>
+        </div>
+            
+            <br>
+            <label for="classname" class="form-sections">Class Name</label>
+            <input type="text" name="className" id="classname" placeholder="Ex. HIS 2040" class="nonbuttons">
+
+        <div class="sources">
+        <p id="sources">Add Sources:</p>
+        <div id="sources-container"> 
+          <input type="url" placeholder="Link to article" class="source-inputs">
+        </div>
+        <button id="add-source" type="button">Add source</button>
+        </div>
+
+        {{!-- <input type="text" class="sources" name="firstsource" id="source1"> --}}
+
+        <p class="form-sections">Guidelines</p>
+        <textarea name="guidelines" id="guidelines" placeholder="Ex. The essay should be approximately four to six pages in length, or about 1,200 to 1,800 words, and must be double-spaced in 12-point Times New Roman font with one-inch margins."></textarea>
+        
+        <br>
+        
+        <button id="essay-link">Generate</button>
+
+        </form>
+       
+       
+       </div>
+        {{>footer}}
 
         <script src="/ai-writer.js"></script>
     </body>

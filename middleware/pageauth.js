@@ -21,7 +21,7 @@ async function pageAuth(req, res, next) {
         }
 
         req.user = user
-        req.locals.user = user //makes {{user}} avaialbe in hbs
+        res.locals.user = user //makes {{user}} avaialbe in hbs
         next()
     } catch(err) {
         next()
