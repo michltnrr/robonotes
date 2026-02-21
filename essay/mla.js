@@ -1,6 +1,7 @@
 const {google} = require('googleapis')
 const dotenv = require('dotenv')
 const fs = require('fs')
+const path = require('path')
 const {getLastIndex} = require('./utils/getIndex')
 const {applyHeader} = require('./utils/writeHeader')
 dotenv.config()
@@ -17,11 +18,10 @@ async function writeMLA(mydocumentId) {
             version: `v1`,
             auth
         })
-        const essayFile = fs.readFileSync(`generated-essay.json`).toString()
+        const essayFile = fs.readFileSync(path.join(__dirname, 'generated-essay.json'))
         const paperData = JSON.parse(essayFile)
         
-        const userLastName = paperData.usersName
-        const last = userLastName.slice(userLastName.indexOf(" ")).trim()
+        const last = paperData.usersName.split(" ").pop()
         console.log(last)
         
         const paperClassDeets = `${paperData.usersName}\n${paperData.className}\n${paperData.professorName}\n${paperData.date}\n`

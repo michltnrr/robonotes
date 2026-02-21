@@ -1,42 +1,32 @@
 {
-  "title": "AI & Ethics In Education",
-  "professorName": "Charles Xavier",
+  "title": "Get cracked at debugging with vscode",
+  "professorName": "Ben Dover",
   "usersName": "Mike Turner",
-  "className": "CSC 5555",
-  "date": "Jan 17, 2026",
+  "className": "CSC 3400",
+  "date": "February 20, 2026",
   "affiliation": "College of Engineering, Wayne State University",
   "headings": [
     {
-      "title": "AI & Ethics In Education",
-      "body": "The integration of artificial intelligence (AI) in educational settings has sparked significant debate regarding ethical considerations, social impact, and long-term ramifications. As AI tools rapidly evolve and find their way into classrooms, educators, students, and policymakers must grapple with questions of fairness, transparency, and responsibility. These concerns are especially pressing as AI models influence grading, personalization, learning recommendations, and even the monitoring of student behavior. In this essay, I will discuss the ethical dimensions of AI in education, examining potential benefits and risks, and laying out strategies to navigate this complex landscape."
+      "title": "Get cracked at debugging with vscode",
+      "body": "Debugging is a crucial skill for any software developer, and mastering robust tools can significantly enhance productivity and code quality. Visual Studio Code (VSCode) stands out as one of the leading code editors that offers an array of powerful debugging features. In the context of computer science education, particularly in CSC 3400 at Wayne State University, students are increasingly encouraged to leverage VSCode's capabilities. This essay explores the various debugging tools embedded in VSCode, guiding users through effective methods to streamline the debugging process and reinforcing the importance of leveraging modern Integrated Development Environments (IDEs) for real-world programming challenges."
     },
     {
-      "title": "The Promise and Perils of AI in Education",
-      "subheading": "Opportunities for Enhanced Learning",
-      "body": "Artificial intelligence offers substantial opportunities to enhance educational experiences. AI-driven personalization can support diverse learners by adapting content in real-time, potentially narrowing achievement gaps (Yang et al., 2020). For instance, adaptive tutoring systems leverage student data to create custom exercises and suggestions, increasing engagement and retention. As noted by Lison and Bibauw (2020), “AI has demonstrated the potential to automate complex pedagogical tasks in ways that foster both efficiency and greater inclusion” (p. 1). However, these technological advancements also present new challenges, particularly around the transparency and explainability of AI decisions."
+      "title": "VSCode Debugger Features",
+      "subheading": "Harnessing the Power of Integrated Debugging",
+      "body": "VSCode's integrated debugger allows for seamless error identification and resolution within the editor itself. According to the official documentation, users can set breakpoints, step through code line by line, and monitor variable changes in real time (Visual Studio Code Docs, 2024a). This feature mitigates the need for external debugging tools, fostering a unified development environment. Additionally, for more advanced debugging scenarios such as working with Node.js applications in the browser, VSCode supports browser-based debugging (Visual Studio Code Docs, 2024b). Such integrations not only improve debugging efficiency but also align with current industry practices."
     },
     {
-      "title": "Ethical Concerns in AI-Driven Education",
-      "subheading": "Bias, Equity, and Accountability",
-      "body": "One of the most salient ethical concerns centers on bias embedded within AI systems. Algorithms trained on historical data may inadvertently reproduce and amplify existing social inequities. As highlighted by Yang et al. (2020), ensuring fairness requires conscious efforts at every stage of development and deployment. The authors state:\n\n    \"Machine learning-based educational applications risk perpetuating or amplifying existing social biases if not carefully assessed for fairness and evaluated against broad demographic datasets\" (Yang et al., 2020, p. 3).\n\nIn addition to bias, the question of accountability arises. When an AI system erroneously assesses student performance or misidentifies a student’s needs, pinpointing responsibility becomes complex (Lison & Bibauw, 2020). For more on the implications of decision-making by AI in education and how multilayered accountability is needed, see Yang et al. (2020)."
-    },
-    {
-      "title": "Privacy and Data Ethics",
-      "subheading": "Student Data and Consent",
-      "body": "The widespread use of AI in education necessitates the collection and processing of vast amounts of student data. Issues surrounding data privacy and informed consent are, therefore, of paramount importance. According to Lison and Bibauw (2020), strict ethical guidelines and transparent data management practices are necessary to protect student identities and ensure compliance with privacy laws. Furthermore, students and parents must be comprehensively informed about what data is collected and how it is used. Ensuring informed consent and control over educational data helps safeguard trust and aligns with ethical frameworks outlined by leading researchers (Lison & Bibauw, 2020; Yang et al., 2020)."
-    },
-    {
-      "title": "Navigating the Path Forward",
-      "subheading": "Ethical Implementation and Policy Recommendations",
-      "body": "To ethically deploy AI in educational contexts, schools and universities should establish clear policies grounded in transparency, inclusivity, and ongoing evaluation. Multi-stakeholder collaboration is essential to address evolving concerns and bridge the gap between technological possibility and responsible practice. Yang et al. (2020) argue that “effective ethical oversight mechanisms, such as advisory boards and regular audits, can support the responsible integration of AI in education.” These measures include bias auditing, user training, and the development of explainable models.\n\nUltimately, as a collective, educators and technologists must engage in continuous dialogue, ensuring that advancements in AI align with core educational values and uphold societal trust. For more on practical recommendations for responsible AI use, refer to Lison and Bibauw (2020)."
+      "title": "Implementing Best Practices in Debugging",
+      "subheading": "Strategies for Effective Code Analysis",
+      "body": "According to Visual Studio Code Docs et al. (2024a), best practices involve strategic use of conditional breakpoints and watch expressions. Employing these tools can help isolate problematic code paths without inundating the developer with unnecessary runtime data. A secondary source suggests, \"By leveraging VSCode's watch expressions feature, developers can dynamically observe pertinent changes in variable states and thus, pinpoint elusive bugs that would otherwise evade traditional print-debugging techniques\" (Visual Studio Code Docs, 2024b, para. 3). As a result, mastering these features is not only useful for coursework in CSC 3400 but also invaluable in professional software engineering."
     }
   ],
   "conclusion": {
     "title": "Conclusion",
-    "body": "The ethical implications of AI in education present both significant opportunities and daunting challenges. While these technologies can foster personalized, effective learning environments, they also raise urgent questions regarding bias, privacy, and accountability. To successfully harness AI’s potential, the educational community must prioritize robust ethical safeguards, foster transparency, and uphold student autonomy. By combining innovative technology with strong ethical frameworks, we can assist learners more equitably and responsibly in a rapidly changing digital landscape."
+    "body": "As computing challenges grow in complexity, robust debugging skills anchored in modern tools like VSCode become indispensable. The integration of advanced debugging functionalities within VSCode provides students and professionals with accessible and powerful means to streamline code analysis. Embracing these features not only empowers learners in CSC 3400 but also instills habits that will serve them throughout their software development careers."
   },
   "references": [
-    "Lison, P., & Bibauw, S. (2020). On the use of conversational agents in computer science education: A survey. arXiv. https://arxiv.org/abs/2011.07647?utm_source=chatgpt.com",
-    "Yang, J., Heffernan, N., & Heffernan, C. (2023). Fairness in AI and learning analytics: A multidisciplinary roadmap. arXiv. https://arxiv.org/abs/2303.13379?utm_source=chatgpt.com"
+    "Visual Studio Code Docs. (2024a). Debugging in Visual Studio Code. https://code.visualstudio.com/docs/debugtest/debugging",
+    "Visual Studio Code Docs. (2024b). Browser Debugging for Node.js. https://code.visualstudio.com/docs/nodejs/browser-debugging"
   ]
 }

@@ -87,8 +87,8 @@ function renderNotes(notes) {
         title.className = 'note-title'
 
         // Title logic
-        if (note.noteType === 'video') {
-            title.textContent = note.metadata?.title || 'Video Note'
+        if (note.noteType === 'video' || note.noteType === 'essay') {
+            title.textContent = note.metadata?.title || 'Untitled Note'
         } else {
             title.textContent = note.prompt || 'Untitled'
         }
@@ -125,7 +125,11 @@ function renderNotes(notes) {
         }
 
         if (note.noteType === 'essay') {
-            content.textContent = note.metadata?.essay || ''
+            content.innerHTML = `
+            <a href="${note.metadata?.url}" target="_blank" class="card-link">
+                Open Google Docs
+            </a>
+        `
         }
 
         // ----- FOOTER -----
@@ -178,7 +182,7 @@ function openModal(note) {
         `
     }
 
-    if (note.noteType === 'quiz') {
+    else if (note.noteType === 'quiz') {
         const questionsHTML = note.metadata?.questions?.map(q => {
 
         const optionsHTML = q.options?.map(option => `
@@ -194,13 +198,33 @@ function openModal(note) {
             </div>
         `
     }).join('')
-
-
+    
     modalBody.innerHTML = `
         <h2>${note.metadata?.title}</h2>
         ${questionsHTML}
     `
-    }
+}
+
+    else if (note.noteType === 'essay') {
+    modalBody.innerHTML = `
+        <h2>${note.metadata?.title || 'Untitled Essay'}</h2>
+
+        <p>
+            <a href="${note.metadata?.url}" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="modal-link">
+                Open Google Doc
+            </a>
+        </p>
+
+        <div class="essay-guidelines">
+            <h3>Guidelines</h3>
+            <p>${note.prompt || 'No guidelines provided.'}</p>
+        </div>
+    `
+}
+    
     modal.classList.remove('hidden')
     document.body.style.overflow = 'hidden'
 }

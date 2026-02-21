@@ -91,19 +91,39 @@
             text-decoration: none;
             display: inline-block;
         }
+        #logout {
+            background: #2da8d2;
+            border: 1px solid #444;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        #logout:hover{
+            color: black;
+            background: #d93b55;
+        }
         .action-btn:hover {
             background: #2a2a2a;
             border-color: #2da8d2;
             color: #2da8d2;
         }
         .action-btn.primary {
-            background: #2da8d2;
-            border-color: #2da8d2;
+            background: #d93b55;
+            border-color:  #d93b55;
             color: white;
         }
         .action-btn.primary:hover {
             background: #2190b0;
             border-color: #2190b0;
+            color: #000000;
         }
         @media (max-width: 640px) {
             .info-grid { grid-template-columns: 1fr; }
@@ -137,20 +157,25 @@
         </div>
 
         <div class="actions-section">
-            <a href="#" class="action-btn primary" onclick="alert('Edit profile'); return false;">Edit Profile</a>
+            <a href="#" class="action-btn primary" >Delete account</a>
             <a href="/managecourses" class="action-btn">Manage Courses</a>
             <a href="/mynotes" class="action-btn">View My Notes</a>
+            <button id="logout">Log Out</button>
         </div>
     </div>
 
     {{>footer}}
     <script>
+        const token = localStorage.getItem('token')
+        
         const usernameCard = document.querySelector(`#userName`)
         const emailCard = document.querySelector(`#email`)
         const joinedCard = document.querySelector(`#joined`)
+
+        const logoutBtn = document.getElementById(`logout`)
+        const deleteBtn = document.querySelector(`.action-btn.primary`)
         
         async function getuserData() {
-            const token = localStorage.getItem('token')
             const readProfile = await fetch(`/users/me`, {
                 method: "GET",
                 headers: {
@@ -183,6 +208,40 @@
             writeData()
         }
         main()
+
+        logoutBtn.addEventListener('click', async() => {
+           try {
+            await fetch(`/users/logout`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            window.location.href = '/'
+
+           }catch(err) {
+            console.log(err)
+           }
+                
+        })
+
+        deleteBtn.addEventListener('click', async () => {
+            try {
+            const deleteAcc = await fetch(`/users/me`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type" : "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            window.location.href = '/'
+
+            }catch(err) {
+                console.log(err)
+            }
+        })
+
 
     </script>
 </body>

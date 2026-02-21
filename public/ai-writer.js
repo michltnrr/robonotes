@@ -1,10 +1,12 @@
+const token = localStorage.getItem('token');
+
 const generateButton = document.querySelector(`#essay-link`)
 const mla = document.querySelector(`#mla-format`)
 const apa = document.querySelector(`#apa-format`)
 const disclaimer = document.querySelector(`#disclaimer`)
 const uniDepartment = document.querySelectorAll(`.affiliation-labels`)
-
 const addSource = document.querySelector(`#add-source`)
+
 const sourcesContainer = document.querySelector(`#sources-container`)
 
 let format
@@ -52,15 +54,14 @@ async function fetchEssayData(e) {
             const className = document.querySelector(`#classname`).value;
             const guidelines = document.querySelector(`#guidelines`).value;
             const affiliation = document.querySelector(`#affiliation`).value
-
             const sourceLinks = document.getElementsByClassName(`source-inputs`);
             const linkURLS = Array.from(sourceLinks)
-                .map(input => input.value)
-                .filter(link => link.trim() !== "");
-
+            .map(input => input.value)
+            .filter(link => link.trim() !== "");
+            
             const essayFormat = specifyFormat();
             console.log('💡 Selected format:', essayFormat);
-
+            
             // Generate essay
             const url = `/writer/assistant?` + new URLSearchParams({
                 pages,
@@ -74,31 +75,32 @@ async function fetchEssayData(e) {
                 affiliation,
                 sources: JSON.stringify(linkURLS)
             }).toString();
-
+            
             console.log('💡 Fetching essay from:', url);
             const essayFetch = await fetch(url);
             if (!essayFetch.ok) throw new Error(`Failed to fetch essay: ${essayFetch.status}`);
-
+            
             const essayData = await essayFetch.json();
             console.log('✅ Essay data received:', essayData);
-
+            
             const writeResponse = await fetch("/write-doc", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                format
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    format
+                })
             })
-        })
-
+            
             const writeResult = await writeResponse.json();
             console.log('✅ /write-doc result:', writeResult);
             if (!writeResult.success) throw new Error(writeResult.error);
-
+            
+            await saveEssay()
             essayDone = true;
             generateButton.disabled = false;
             generateButton.style.opacity = 1.0;
             generateButton.textContent = `View Essay`;
-
+            
         }
     } catch (err) {
         console.error('❌ Error in fetchEssayData:', err);
@@ -108,4 +110,72 @@ async function fetchEssayData(e) {
     }
     window.open(`https://docs.google.com/document/d/122c642Y-FaQ-i8R1Nbq95QJIo8sNkd2GaT6SJYT-jq0/edit?tab=t.0`, `_blank`);
 }
+
+async function saveEssay() {
+    const courseId = document.getElementById('courseSelect').value
+    const guidelines = document.querySelector(`#guidelines`).value;
+    const essayTitle = document.querySelector(`#title`).value;
+    
+    if(!courseId) {
+        alert('Please select a course')
+        return
+    }
+
+    const save = await fetch(`/courses/${courseId}/notes`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            noteType: 'essay',
+            prompt: guidelines,
+            metadata: {
+                title: essayTitle,
+                url: 'https://docs.google.com'
+            }
+        })
+    })
+    return await save.json()
+}
+
+async function getCourses() {
+    const res = await fetch('/courses', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return await res.json();
+}
+
+async function populateDropdown() {
+    try {
+        const courses = await getCourses();
+        const select = document.getElementById('courseSelect');
+        const addNewOption = select.querySelector('option[value="add-new"]');
+
+        courses.forEach(c => {
+            const option = document.createElement('option');
+            option.value = c._id;
+            option.textContent = c.name;
+            select.insertBefore(option, addNewOption);
+        });
+
+        select.addEventListener('change', function () {
+            if (this.value === 'add-new') {
+                window.location.href = '/addcourse';
+            }
+            console.log('Selected Course:', this.value);
+        });
+    } catch (e) {
+        // API not available in preview — demo options shown
+        document.getElementById('courseSelect').addEventListener('change', function () {
+            if (this.value === 'add-new') window.location.href = '/addcourse';
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', populateDropdown);
 generateButton.addEventListener(`click`, fetchEssayData);

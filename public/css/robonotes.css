@@ -42,10 +42,19 @@ button {
     background: linear-gradient(to right, rgb(217, 59, 85), rgb(45, 168, 210));
     border: none;
     cursor: pointer;
+    color: white
 }
+
+
 
 button:hover {
     background: rgb(216, 49, 49);
+    color: black
+}
+
+button:active {
+    background: rgb(216, 49, 49);
+    color: black
 }
 
 .typewriter {

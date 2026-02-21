@@ -5,17 +5,16 @@
     color: white;
     background: linear-gradient(to right, rgb(211, 79, 101), rgb(210, 17, 17));
     margin: 0;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
 }
 #sign:active{
     background: white;
     background: linear-gradient(to right, rgb(45, 168, 210), rgb(57, 57, 219));
-}
-
-button{
-    color: white;
-    border: none;
     border-radius: 20px;
     padding: 10px 20px;
+    border: none
 }
 
 .main-header {

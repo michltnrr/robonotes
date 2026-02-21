@@ -53,6 +53,12 @@ userSchema.virtual('courses', {
     foreignField: 'owner'
 })
 
+userSchema.virtual('notes', {
+    ref: 'Note',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 userSchema.pre('save', async function () {
     const user = this
     /*why do we need isModified in a pre('save')? because If the document is brand new, all fields are considered “modified” automatically

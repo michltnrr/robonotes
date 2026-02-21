@@ -8,7 +8,8 @@ router.post(`/courses/:courseId/notes`, auth, async (req, res) => {
     try {
         const note = await Note.create({
             ...req.body,
-            course: req.params.courseId
+            course: req.params.courseId,
+            owner: req.user._id
         })
         await note.save()
         res.status(201).send({note})
@@ -22,7 +23,7 @@ router.post(`/courses/:courseId/notes`, auth, async (req, res) => {
 router.get(`/notes`, auth, async (req, res) => {
     //notes/?sortBy=createdAt_asc
     try {
-        const filter = {}
+        const filter = {owner: req.user._id}
         const sort = {}
 
         //filter

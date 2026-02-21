@@ -85,8 +85,9 @@ router.delete(`/users/me`, auth, async (req, res) => {
             if(!user) {
                 throw new Error("User doesn't exist")
             }
+            //delete only the current users notes and courses
             await Course.deleteMany({owner: req.user._id})
-            await Note.deleteMany({})
+            await Note.deleteMany({owner: req.user._id})
             res.status(200).send({user})
 
     }catch(err) {

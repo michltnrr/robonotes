@@ -18,6 +18,12 @@ const noteSchema = new mongoose.Schema({
         ref: 'Course'
     },
 
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+
     metadata: {
        type: mongoose.Schema.Types.Mixed,
        default: {}

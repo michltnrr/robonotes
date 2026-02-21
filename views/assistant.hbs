@@ -89,6 +89,27 @@
             outline: none;
         }
 
+        .course-select {
+        background: #252525;
+        border: 1px solid #333;
+        color: #e8e8e8;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        font-family: inherit;
+        outline: none;
+        transition: all 0.2s ease;
+        min-width: 200px;
+        margin-top: 4px;
+        }
+
+        .course-select:hover {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+
+
         #sources {
             font-size: small;
             color: #414141;
@@ -134,20 +155,17 @@
 
         #essay-link{
             width: 200px;
+            padding: 5px;
             color: white;
             background-color: #4A85E7;
             border: none;
             border-radius: 5px;
             margin-left: 150px;
-             height: 25px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         #essay-link:hover{
             background-color: #D93B55;
+            color: black;
         }
         #essay-link:active {
             color:black;
@@ -242,6 +260,19 @@
             <br>
             <label for="classname" class="form-sections">Class Name</label>
             <input type="text" name="className" id="classname" placeholder="Ex. HIS 2040" class="nonbuttons">
+
+            <br><br>
+
+<!-- NEW course dropdown -->
+        <label for="courseSelect" class="form-sections">Course</label>
+        <br>
+        <select class="course-select" id="courseSelect">
+            <option value="">Select a course...</option>
+            <option value="add-new">+ Add New Course</option>
+        </select>
+
+        <br><br>
+
 
         <div class="sources">
         <p id="sources">Add Sources:</p>
